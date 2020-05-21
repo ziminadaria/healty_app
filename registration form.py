@@ -3,9 +3,14 @@ def start_of_app():
     existing_account = input("Do you have an account? (yes/no): ")
     if existing_account == 'yes':
         name = input("Please, enter your name: ")
-        #main_menu
+        goal_of_user = input("Do you want to change your goal? (yes/no): ")
+        if goal_of_user == 'yes':
+            main_menu(goal)
+        else:
+            main_menu(main_menu1)
     elif existing_account == 'no':
         add_to_data_base(registration_form())
+        main_menu(goal)
 
 def take_data_from_database():
     data_base = {}
@@ -45,6 +50,50 @@ def add_to_data_base(data):
                file.write(str(data[key])+",")
 
 
+def main_menu(dictionary):
+    for value in dictionary.values():
+        print(value[0])
+    choice1 = input("Choose an option: ")
+    if choice1 in dictionary.keys():
+        dictionary[choice1][1]()
+    else:
+        print("WRONG INPUT. PLEASE CHOOSE ANOTHER OPTION.")
+        main_menu(main_menu1)
+
+
+def my_profile():
+    pass
+
+def my_diet():
+    pass
+
+def my_training_plan():
+    pass
+
+
+def exit_programme():
+    quit()
+
+
+def lose_weight():
+    main_menu(main_menu1)
+
+def gain_weight():
+    main_menu(main_menu1)
+
+def keep_in_shape():
+    main_menu(main_menu1)
+
+
+main_menu1 = {'1': ("1)See my profile", my_profile),
+              '2': ("2)See my diet", my_diet),
+              '3': ("3)See my training plan", my_training_plan),
+              '4': ("4)Exit", exit_programme)
+             }
+
+goal = {'1': ("1)To lose weight", lose_weight),
+        '2': ("2)To gain weight", gain_weight),
+        '3': ("3)To keep in shape", keep_in_shape)
+       }
+
 start_of_app()
-
-
