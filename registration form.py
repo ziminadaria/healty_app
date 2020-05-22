@@ -71,6 +71,7 @@ def my_profile():
     for key in data_base.keys():
         if key == name:
             print(data_base[key])
+            #pass
 
 
 def my_diet():
