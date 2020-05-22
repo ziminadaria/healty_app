@@ -5,8 +5,7 @@ def start_of_app():
         main_menu(main_menu1)
     elif existing_account == 'no':
         add_to_data_base(registration_form())
-        print('Choose your goal: ')
-        main_menu(goal)
+        main_menu(main_menu1)
 
 
 def take_data_from_database():
@@ -19,14 +18,15 @@ def take_data_from_database():
             weight = line.split(',')[3]
             height = line.split(',')[4]
             lifestyle = line.split(',')[5]
-            personal_data = dict(name=name, sex=sex, age=age, weight=weight, height=height, lifestyle=lifestyle)
+            goal = line.split(',')[6]
+            personal_data = dict(name=name, sex=sex, age=age, weight=weight, height=height, lifestyle=lifestyle,
+                                 goal=goal)
             data_base[name] = personal_data
-    return data_base
+        return data_base
 
 
 def registration_form():
-    data_base = take_data_from_database()
-    print(" Please, fill in the registration form: ")
+    print("Please, fill in the registration form: ")
     while True:
         name = input("Enter your username: ")
         if name in data_base.keys():
@@ -38,7 +38,10 @@ def registration_form():
     weight = int(input("Enter your weight: "))
     height = int(input("Enter your height: "))
     lifestyle = input("Enter your type of lifestyle (active/not active): ")
-    data = {"username": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle}
+    goal = input("Choose your goal (lose weight/gain weight/keep in shape): ")
+    data = {"username": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle,
+            "goal": goal}
+    data_base[name] = data
     return data
 
 
@@ -65,7 +68,7 @@ def main_menu(dictionary):
         main_menu(main_menu1)
 
 
-def my_profile(data_base):
+def my_profile():
     name = username_identification()
     if name in data_base:
         info = data_base[name]
@@ -73,13 +76,14 @@ def my_profile(data_base):
             print(f'{key} - {value}')
         action = input('If you want to change your profile, print "yes" or print "back": ')
         if action == 'yes':
-            change_profile()
+            take_action(profile_parameters)
         elif action == 'back':
             main_menu(main_menu1)
         else:
             print('Incorrect input. Try again!')
     else:
         print('Incorrect username. Try again!')
+        my_profile()
 
 
 def my_diet():
@@ -107,8 +111,22 @@ def keep_in_shape():
 
 
 def change_profile():
-    action = input('Print the number of the parameter you want to change:\n1)Username\n2)Sex\n3)Age\n4)Weight\n'
-                   '5)Height\n6)Lifestyle\nYour choice: ')
+    main_menu(profile_parameters)
+
+
+def take_action(dictionary):
+    for value in dictionary.values():
+        print(value[0])
+    choice1 = input("Choose an option: ")
+    if choice1 in dictionary.keys():
+        change_parameters(dictionary[choice1][1])
+    else:
+        print("WRONG INPUT. PLEASE CHOOSE ANOTHER OPTION.")
+        main_menu(main_menu1)
+
+
+def change_parameters(key):
+    pass
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
@@ -122,4 +140,14 @@ goal = {'1': ("1)To lose weight", lose_weight),
         '3': ("3)To keep in shape", keep_in_shape)
         }
 
+profile_parameters = {'1': ("1)Username", 'name'),
+                      '2': ("2)Sex", 'sex'),
+                      '3': ("3)Age", 'age'),
+                      '4': ("4)Weight", 'weight'),
+                      '5': ("5)Height", 'height'),
+                      '6': ("6)Lifestyle", 'lifestyle'),
+                      '7': ("7)Goal", 'goal')
+                      }
+
+data_base = take_data_from_database()
 start_of_app()

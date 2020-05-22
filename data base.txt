@@ -1,3 +1,3 @@
-Alena,female,17,50,158,active,
-Gorge,male,21,65,180,active,
-Tom,male,30,70,187,active,
+Alena,female,17,50,158,active,keep in shape,
+Gorge,male,21,65,180,active,gain weight,
+Tom,male,30,70,187,active,lose weight,
