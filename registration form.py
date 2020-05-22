@@ -2,7 +2,6 @@ def start_of_app():
     print("Welcome to the Healthy lifestyle application!")
     existing_account = input("Do you have an account? (yes/no): ")
     if existing_account == 'yes':
-        name = input("Please, enter your username: ")
         main_menu(main_menu1)
     elif existing_account == 'no':
         add_to_data_base(registration_form())
@@ -26,8 +25,14 @@ def take_data_from_database():
 
 
 def registration_form():
+    data_base = take_data_from_database()
     print(" Please, fill in the registration form: ")
-    name = input("Enter your username: ")
+    while True:
+        name = input("Enter your username: ")
+        if name in data_base.keys():
+            print("USERNAME ALREADY EXISTS. PLEASE CHOOSE ANOTHER ONE")
+        else:
+            break
     sex = input("Enter your sex (male/female): ")
     age = int(input("Enter your full age: "))
     weight = int(input("Enter your weight: "))
@@ -44,6 +49,11 @@ def add_to_data_base(data):
             file.write(str(data[key]) + ",")
 
 
+def username_identification():
+    name = input("Please, enter your name. It should be unique: ")
+    return name
+
+
 def main_menu(dictionary):
     for value in dictionary.values():
         print(value[0])
@@ -56,7 +66,11 @@ def main_menu(dictionary):
 
 
 def my_profile():
-    pass
+    name = username_identification()
+    data_base = take_data_from_database()
+    for key in data_base.keys():
+        if key == name:
+            print(data_base[key])
 
 
 def my_diet():
