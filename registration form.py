@@ -65,13 +65,21 @@ def main_menu(dictionary):
         main_menu(main_menu1)
 
 
-def my_profile():
+def my_profile(data_base):
     name = username_identification()
-    data_base = take_data_from_database()
-    for key in data_base.keys():
-        if key == name:
-            print(data_base[key])
-            #pass
+    if name in data_base:
+        info = data_base[name]
+        for key, value in info.items():
+            print(f'{key} - {value}')
+        action = input('If you want to change your profile, print "yes" or print "back": ')
+        if action == 'yes':
+            change_profile()
+        elif action == 'back':
+            main_menu(main_menu1)
+        else:
+            print('Incorrect input. Try again!')
+    else:
+        print('Incorrect username. Try again!')
 
 
 def my_diet():
@@ -96,6 +104,11 @@ def gain_weight():
 
 def keep_in_shape():
     main_menu(main_menu1)
+
+
+def change_profile():
+    action = input('Print the number of the parameter you want to change:\n1)Username\n2)Sex\n3)Age\n4)Weight\n'
+                   '5)Height\n6)Lifestyle\nYour choice: ')
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
