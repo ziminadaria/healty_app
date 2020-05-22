@@ -3,13 +3,10 @@ def start_of_app():
     existing_account = input("Do you have an account? (yes/no): ")
     if existing_account == 'yes':
         name = input("Please, enter your name: ")
-        goal_of_user = input("Do you want to change your goal? (yes/no): ")
-        if goal_of_user == 'yes':
-            main_menu(goal)
-        else:
-            main_menu(main_menu1)
+        main_menu(main_menu1)
     elif existing_account == 'no':
         add_to_data_base(registration_form())
+        print('Choose your goal: ')
         main_menu(goal)
 
 def take_data_from_database():
