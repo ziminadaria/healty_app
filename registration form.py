@@ -1,13 +1,3 @@
-def start_of_app():
-    print("Welcome to the Healthy lifestyle application!")
-    existing_account = input("Do you have an account? (yes/no): ")
-    if existing_account == 'yes':
-        main_menu(main_menu1)
-    elif existing_account == 'no':
-        add_to_data_base(registration_form())
-        main_menu(main_menu1)
-
-
 def take_data_from_database():
     data_base = {}
     with open("data base.txt", 'r') as file:
@@ -53,8 +43,35 @@ def add_to_data_base(data):
 
 
 def username_identification():
-    name = input("Please, enter your name. It should be unique: ")
-    return name
+    existing_account = input("Do you have an account? (yes/no): ")
+    if existing_account == 'yes':
+        while True:
+            name1 = input("Please, enter your name. It should be unique: ")
+            if name1 in data_base:
+                break
+            else:
+                print("Username does not exist in data base. Please, try again.")
+        return data_base[name1]
+    elif existing_account == 'no':
+        add_to_data_base(registration_form())
+        print("Please, log in:")
+        while True:
+            name2 = input("Please, enter your name. It should be unique: ")
+            if name2 in data_base:
+                break
+            else:
+                print("Username does not exist in data base. Please, try again.")
+        return data_base[name2]
+
+
+def take_username_from_base(name):
+    pass
+    if name in data_base:
+        personal_data = data_base[name]
+        return personal_data
+    else:
+        print("Username does not exist in data base. Please, try again.")
+        take_username_from_base(name)
 
 
 def main_menu(dictionary):
@@ -69,21 +86,16 @@ def main_menu(dictionary):
 
 
 def my_profile():
-    name = username_identification()
-    if name in data_base:
-        info = data_base[name]
-        for key, value in info.items():
-            print(f'{key} - {value}')
-        action = input('If you want to change your profile, print "yes" or print "back": ')
-        if action == 'yes':
-            take_action(profile_parameters)
-        elif action == 'back':
-            main_menu(main_menu1)
-        else:
-            print('Incorrect input. Try again!')
+    for key, value in user.items():
+        print(f'{key} - {value}')
+    action = input('If you want to change your profile, print "yes" or print "back": ')
+    if action == 'yes':
+        print("Choose what you want to change:")
+        take_action(profile_parameters)
+    elif action == 'back':
+        main_menu(main_menu1)
     else:
-        print('Incorrect username. Try again!')
-        my_profile()
+        print('Incorrect input. Try again!')
 
 
 def my_diet():
@@ -150,4 +162,6 @@ profile_parameters = {'1': ("1)Username", 'name'),
                       }
 
 data_base = take_data_from_database()
-start_of_app()
+print("Welcome to the Healthy lifestyle application!")
+user = username_identification()
+main_menu(main_menu1)
