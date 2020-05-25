@@ -115,7 +115,6 @@ def daily_calories():
         daily_calories = 0.9 * daily_calories
     elif user['goal'] == 'gain weight':
         daily_calories = 1.1 * daily_calories
-    print(int(daily_calories))
     return int(daily_calories)
 
 
