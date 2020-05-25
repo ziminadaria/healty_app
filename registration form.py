@@ -99,7 +99,24 @@ def my_profile():
 
 
 def my_diet():
-    pass
+    daily_calories()
+
+def daily_calories():
+    daily_calories = int(user['weight']) * 9.99 + int(user['height']) * 6.25 - int(user['age'])* 4.92
+    if user['sex'] == 'male':
+        daily_calories +=5
+    elif user['sex'] == 'female':
+        daily_calories -= 161
+    if user['lifestyle']  == 'active':
+        daily_calories *= 1.46
+    elif user['lifestyle'] == 'not active':
+        daily_calories *= 1.2
+    if user['goal'] == 'lose weight':
+        daily_calories = 0.9 * daily_calories
+    elif user['goal'] == 'gain weight':
+        daily_calories = 1.1 * daily_calories
+    print(int(daily_calories))
+    return int(daily_calories)
 
 
 def my_training_plan():
