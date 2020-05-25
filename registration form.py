@@ -23,12 +23,42 @@ def registration_form(dbase):
             print("USERNAME ALREADY EXISTS. PLEASE CHOOSE ANOTHER ONE")
         else:
             break
-    sex = input("Enter your sex (male/female): ")
-    age = int(input("Enter your full age: "))
-    weight = int(input("Enter your weight: "))
-    height = int(input("Enter your height: "))
-    lifestyle = input("Enter your type of lifestyle (active/not active): ")
-    goal = input("Choose your goal (lose weight/gain weight/keep in shape): ")
+    while True:
+        sex = input("Enter your sex (male/female): ")
+        if sex != 'male' and sex != 'female':
+            print("Wrong input! Choose between two variants.")
+        else:
+            break
+    while True:
+        try:
+            age = int(input("Enter your full age: "))
+            break
+        except ValueError:
+            print("Wrong input. Write only integer numbers!")
+    while True:
+        try:
+            weight = int(input("Enter your weight: "))
+            break
+        except ValueError:
+            print("Wrong input. Write only integer numbers!")
+    while True:
+        try:
+            height = int(input("Enter your height: "))
+            break
+        except ValueError:
+            print("Wrong input. Write only integer numbers!")
+    while True:
+        lifestyle = input("Enter your type of lifestyle (active/not active): ")
+        if lifestyle != 'active' and lifestyle != 'not active':
+            print("Wrong input! Choose between two variants.")
+        else:
+            break
+    while True:
+        goal = input("Choose your goal (lose weight/gain weight/keep in shape): ")
+        if goal != 'lose weight' and goal != 'gain weight' and goal != 'keep in shape':
+            print("Wrong input! Choose between three variants.")
+        else:
+            break
     data = {"username": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle,
             "goal": goal}
     dbase[name] = data
@@ -46,7 +76,7 @@ def username_identification(data):
     existing_account = input("Do you have an account? (yes/no): ")
     if existing_account == 'yes':
         while True:
-            name1 = input("Please, enter your name. It should be unique: ")
+            name1 = input("Please, enter your name: ")
             if name1 in data:
                 break
             else:
@@ -56,12 +86,15 @@ def username_identification(data):
         add_to_data_base(registration_form(data_base))
         print("Please, log in:")
         while True:
-            name2 = input("Please, enter your name. It should be unique: ")
+            name2 = input("Please, enter your name: ")
             if name2 in data:
                 break
             else:
                 print("Username does not exist in data base. Please, try again.")
         return data[name2]
+    else:
+        print("Wrong input. Please, try once again!")
+        username_identification(data_base)
 
 
 def main_menu(dictionary, username):
@@ -78,18 +111,22 @@ def main_menu(dictionary, username):
 def my_profile(user):
     for key, value in user.items():
         print(f'{key} - {value}')
-    action = input('If you want to change your profile, print "yes" or print "back": ')
-    if action == 'yes':
-        print("Choose what you want to change:")
-        take_action(change_parameters, profile_parameters)
-    elif action == 'back':
-        main_menu(main_menu1, user)
-    else:
-        print('Incorrect input. Try again!')
+    while True:
+        action = input('If you want to change your profile, print "yes" or print "back": ')
+        if action == 'yes':
+            print("Choose what you want to change:")
+            take_action(change_parameters, profile_parameters)
+            break
+        elif action == 'back':
+            main_menu(main_menu1, user)
+            break
+        else:
+            print('Incorrect input. Try again!')
 
 
 def my_diet(user):
-    counting_daily_calories(user)
+    print(f'Daily calories sum = {counting_daily_calories(user)}')
+    main_menu(main_menu1, user)
 
 
 def counting_daily_calories(user):
@@ -142,11 +179,13 @@ def take_action(definition, dictionary):
         definition(dictionary[choice1][1], user)
     else:
         print("WRONG INPUT. PLEASE CHOOSE ANOTHER OPTION.")
-        main_menu(main_menu1, user)
+        take_action(change_parameters, profile_parameters)
 
 
 def change_parameters(key, username):
+    username[key] = input(f'Please, choose another {key}: ')
     pass
+    #подумать над типом переменным + над сортировкой (например, чтобы принималось только male&female и т.д.)
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
