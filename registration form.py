@@ -24,7 +24,7 @@ def registration_form(dbase):
         else:
             break
     while True:
-        sex = input("Enter your sex (male/female): ")
+        sex = input("Enter your sex (male/female): ").strip().lower()
         if sex != 'male' and sex != 'female':
             print("Wrong input! Choose between two variants.")
         else:
@@ -48,13 +48,13 @@ def registration_form(dbase):
         except ValueError:
             print("Wrong input. Write only integer numbers!")
     while True:
-        lifestyle = input("Enter your type of lifestyle (active/not active): ")
+        lifestyle = input("Enter your type of lifestyle (active/not active): ").lower()
         if lifestyle != 'active' and lifestyle != 'not active':
             print("Wrong input! Choose between two variants.")
         else:
             break
     while True:
-        goal = input("Choose your goal (lose weight/gain weight/keep in shape): ")
+        goal = input("Choose your goal (lose weight/gain weight/keep in shape): ").lower()
         if goal != 'lose weight' and goal != 'gain weight' and goal != 'keep in shape':
             print("Wrong input! Choose between three variants.")
         else:
@@ -73,7 +73,7 @@ def add_to_data_base(data):
 
 
 def username_identification(data):
-    existing_account = input("Do you have an account? (yes/no): ")
+    existing_account = input("Do you have an account? (yes/no): ").strip().lower()
     if existing_account == 'yes':
         while True:
             name1 = input("Please, enter your name: ")
@@ -112,7 +112,7 @@ def my_profile(username, dbase):
     for key, value in username.items():
         print(f'{key} - {value}')
     while True:
-        action = input('If you want to change your profile, print "yes" or print "back": ')
+        action = input('If you want to change your profile, print "yes" or print "back": ').strip().lower()
         if action == 'yes':
             print("Choose what you want to change:")
             take_action(change_parameters, profile_parameters, dbase)
@@ -184,12 +184,57 @@ def change_parameters(key, username, dbase):
             parameter = input(f'Please, choose another {key}: ')
             if parameter.isdigit():
                 username[key] = int(parameter)
+                dbase[username['name']] = username
+                change_file(dbase)
                 my_profile(username, dbase)
                 break
             else:
                 print('INCORRECT INPUT! TRY AGAIN!')
+    else:
+        if key == 'sex':
+            while True:
+                sex = input("Enter your sex (male/female): ")
+                if sex != 'male' and sex != 'female':
+                    print("Wrong input! Choose between two variants.")
+                else:
+                    username[key] = sex
+                    dbase[username['name']] = username
+                    change_file(dbase)
+                    break
+            my_profile(username, dbase)
+        elif key == 'lifestyle':
+            while True:
+                lifestyle = input("Enter your type of lifestyle (active/not active): ")
+                if lifestyle != 'active' and lifestyle != 'not active':
+                    print("Wrong input! Choose between two variants.")
+                else:
+                    username[key] = lifestyle
+                    dbase[username['name']] = username
+                    change_file(dbase)
+                    break
+            my_profile(username, dbase)
+        elif key == 'goal':
+            while True:
+                goal = input("Choose your new goal (lose weight/gain weight/keep in shape): ")
+                if goal != 'lose weight' and goal != 'gain weight' and goal != 'keep in shape':
+                    print("Wrong input! Choose between three variants.")
+                else:
+                    username[key] = goal
+                    dbase[username['name']] = username
+                    change_file(dbase)
+                    break
+            my_profile(username, dbase)
 
-    # подумать над типом переменным + над сортировкой (например, чтобы принималось только male&female и т.д.)
+
+def change_file(dbase):
+    count = len(dbase)
+    with open('data base.txt', 'w') as f:
+        for key in dbase:
+            count -= 1
+            for value in data_base[key].values():
+                f.write(str(value) + ",")
+            if count > 0:
+                f.write('\n')
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
@@ -203,15 +248,13 @@ goal = {'1': ("1)To lose weight", lose_weight),
         '3': ("3)To keep in shape", keep_in_shape)
         }
 
-profile_parameters = {'1': ("1)Username", 'name'),
-                      '2': ("2)Sex", 'sex'),
-                      '3': ("3)Age", 'age'),
-                      '4': ("4)Weight", 'weight'),
-                      '5': ("5)Height", 'height'),
-                      '6': ("6)Lifestyle", 'lifestyle'),
-                      '7': ("7)Goal", 'goal')
+profile_parameters = {'1': ("1)Sex", 'sex'),
+                      '2': ("2)Age", 'age'),
+                      '3': ("3)Weight", 'weight'),
+                      '4': ("4)Height", 'height'),
+                      '5': ("5)Lifestyle", 'lifestyle'),
+                      '6': ("6)Goal", 'goal')
                       }
-
 data_base = take_data_from_database()
 print("Welcome to the Healthy lifestyle application!")
 user = username_identification(data_base)
