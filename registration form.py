@@ -1,6 +1,8 @@
 import os
 from os.path import basename
 import json
+from bs4 import BeautifulSoup
+import requests
 
 
 def take_data_from_database():
@@ -257,6 +259,93 @@ def change_file(dbase, username):
                 if count > 0:
                     f.write('\n')
 
+def get_url():
+    resp = requests.get("https://www.diet-weight-lose.com/calories/")
+    return resp
+
+def write_html_file():
+    soup = BeautifulSoup(get_url().text,'lxml')
+    with open("goods.html",'w') as f:
+        f.write(str(soup.prettify()))
+
+def create_soup():
+    with open("goods.html",'r') as f:
+        contents = f.read()
+    soup = BeautifulSoup(contents,"lxml")
+    return soup
+
+def products_name(soup):
+    product = []
+    products = []
+    for line in soup:
+         product.append(str(soup.find_all('div',{'class':'divtabletd'})).split('</div>, <div class="divtabletd">'))
+
+    for name in product[0]:
+        if "</strong>" in name  or "</div>" in name :
+            pass
+        else:
+            products.append( ' '.join(name.split()))
+    products[17] = '1 cookie light'
+    return products
+
+
+def products_gramm(soup):
+    gramm= []
+    grammovka =[]
+    gramms=[]
+    for line in soup:
+          gramm.append(str(soup.find_all('div',{'class':'divtabletd1'})).split('</div>, <div class="divtabletd1">'))
+
+    for quantity in gramm[0]:
+        if "Quantity" in quantity or "</div>" in quantity :
+            pass
+        else:
+            grammovka.append(' '.join(quantity.split()))
+
+    for string in grammovka:
+        if string[0:7] == "portion" and string[18:20] != 'oz':
+            gramms.append(int(string[16:19]))
+        if string[0:7] == "portion" and string[18:20] == 'oz':
+            gramms.append(int(string[23:26]))
+        if string[3:5] == 'oz':
+            gramms.append(int(string[7:10]))
+        if string[:8] == 'baguette':
+            gramms.append(int(string[24:27]))
+        if string == '50 gr':
+            gramms.append(50)
+        if string[:5] == 'spoon':
+            gramms.append(int(string[13:15]))
+        if string[:8]== "2 spoons":
+            gramms.append(int(string[16:18]))
+        if string[:4] == 'unit' and string [16:18] != 'oz':
+            gramms.append(50)
+        if string[:4] == 'unit' and string [16:18] == 'oz':
+            gramms.append(int(string[20:23]))
+        if string[:7] == "2 units":
+            gramms.append(int(string[23:26]))
+        if string[-2:] == "cl":
+            gramms.append(string)
+    return gramms
+
+def products_calories(soup):
+    calori = []
+    calories =[]
+    for line in soup:
+        calori.append(str(soup.find_all('div',{'class':'divtabletd2'})).split('</div>, <div class="divtabletd2">'))
+
+    for quantity in calori[0]:
+        if "Calories" in quantity or "</div>" in quantity:
+            pass
+        else:
+            calories.append(int(' '.join(quantity.split())))
+    return calories
+
+def collect_food_info(name,gramm,calories):
+    gram_and_calories = list(zip(gramm,calories))
+    food_info = dict(zip(name,gram_and_calories))
+    return food_info
+
+
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
               '2': ("2)See my diet", my_diet),
@@ -275,3 +364,5 @@ data_base = take_data_from_database()
 print("Welcome to the Healthy lifestyle application!")
 user = username_identification(data_base)
 main_menu(main_menu1, user, data_base)
+write_html_file()
+collect_food_info(products_name(create_soup()),products_gramm(create_soup()),products_calories(create_soup()))
