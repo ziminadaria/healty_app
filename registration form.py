@@ -5,19 +5,23 @@ import json
 
 def take_data_from_database():
     data_base = {}
-    with open("data base.txt", 'r') as file:
-        for line in file:
-            name = line.split(',')[0]
-            sex = line.split(',')[1]
-            age = int(line.split(',')[2])
-            weight = int(line.split(',')[3])
-            height = int(line.split(',')[4])
-            lifestyle = line.split(',')[5]
-            goal = line.split(',')[6]
-            personal_data = dict(name=name, sex=sex, age=age, weight=weight, height=height, lifestyle=lifestyle,
-                                 goal=goal)
-            data_base[name] = personal_data
-        return data_base
+    try:
+        with open("data base.txt", 'r') as file:
+            for line in file:
+                name = line.split(',')[0]
+                sex = line.split(',')[1]
+                age = int(line.split(',')[2])
+                weight = int(line.split(',')[3])
+                height = int(line.split(',')[4])
+                lifestyle = line.split(',')[5]
+                goal = line.split(',')[6]
+                personal_data = dict(name=name, sex=sex, age=age, weight=weight, height=height, lifestyle=lifestyle,
+                                     goal=goal)
+                data_base[name] = personal_data
+    except FileNotFoundError:
+        print('THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+        quit()
+    return data_base
 
 
 def registration_form(dbase):
@@ -202,7 +206,7 @@ def change_parameters(key, username, dbase):
             if parameter.isdigit():
                 username[key] = int(parameter)
                 dbase[username['name']] = username
-                change_file(dbase)
+                change_file(dbase, username)
                 my_profile(username, dbase)
                 break
             else:
@@ -216,7 +220,7 @@ def change_parameters(key, username, dbase):
                 else:
                     username[key] = sex
                     dbase[username['name']] = username
-                    change_file(dbase)
+                    change_file(dbase, username)
                     break
             my_profile(username, dbase)
         elif key == 'lifestyle':
@@ -227,7 +231,7 @@ def change_parameters(key, username, dbase):
                 else:
                     username[key] = lifestyle
                     dbase[username['name']] = username
-                    change_file(dbase)
+                    change_file(dbase, username)
                     break
             my_profile(username, dbase)
         elif key == 'goal':
@@ -238,20 +242,20 @@ def change_parameters(key, username, dbase):
                 else:
                     username[key] = goal
                     dbase[username['name']] = username
-                    change_file(dbase)
+                    change_file(dbase, username)
                     break
             my_profile(username, dbase)
 
 
-def change_file(dbase):
+def change_file(dbase, username):
     count = len(dbase)
     with open('data base.txt', 'w') as f:
         for key in dbase:
             count -= 1
             for value in data_base[key].values():
                 f.write(str(value) + ",")
-            if count > 0:
-                f.write('\n')
+                if count > 0:
+                    f.write('\n')
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
