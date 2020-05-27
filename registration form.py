@@ -2,6 +2,7 @@ import os
 from os.path import basename
 import json
 
+
 def take_data_from_database():
     data_base = {}
     with open("data base.txt", 'r') as file:
@@ -152,15 +153,23 @@ def counting_daily_calories(username):
 
 
 def my_training_plan(username, dbase):
-    filename = username['goal'] + ' ' + username['sex'] + '.json'
-    for item in os.scandir('trainings'):
-        if basename(item) == filename:
-            with open(item) as file:
-                 plan = json.load(file)
-    trains(username, dbase, plan)
-    print('HAVE A NICE TRAINING!')
-    main_menu(main_menu1, username, dbase)
-    return plan
+    try:
+        filename = username['goal'] + ' ' + username['sex'] + '.json'
+        try:
+            for item in os.scandir('trainings'):
+                if basename(item) == filename:
+                    with open(item) as file:
+                        plan = json.load(file)
+            trains(username, dbase, plan)
+            print('HAVE A NICE TRAINING!')
+            main_menu(main_menu1, username, dbase)
+            return plan
+        except FileNotFoundError:
+            print('THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+            exit_programme(username, dbase)
+    except UnboundLocalError:
+        print('THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+        exit_programme(username, dbase)
 
 
 def trains(username, dbase, personal_plan):
@@ -171,21 +180,8 @@ def trains(username, dbase, personal_plan):
                 print(f'{key1} - {value1}')
 
 
-
 def exit_programme(username, dbase):
     quit()
-
-
-def lose_weight(username, dbase):
-    main_menu(main_menu1, username, dbase)
-
-
-def gain_weight(username, dbase):
-    main_menu(main_menu1, username, dbase)
-
-
-def keep_in_shape(username, dbase):
-    main_menu(main_menu1, username, dbase)
 
 
 def take_action(definition, dictionary, dbase):
@@ -263,11 +259,6 @@ main_menu1 = {'1': ("1)See my profile", my_profile),
               '3': ("3)See my training plan", my_training_plan),
               '4': ("4)Exit", exit_programme)
               }
-
-goal = {'1': ("1)To lose weight", lose_weight),
-        '2': ("2)To gain weight", gain_weight),
-        '3': ("3)To keep in shape", keep_in_shape)
-        }
 
 profile_parameters = {'1': ("1)Sex", 'sex'),
                       '2': ("2)Age", 'age'),
