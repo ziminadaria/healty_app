@@ -1,3 +1,7 @@
+import os
+from os.path import basename
+import json
+
 def take_data_from_database():
     data_base = {}
     with open("data base.txt", 'r') as file:
@@ -148,7 +152,24 @@ def counting_daily_calories(username):
 
 
 def my_training_plan(username, dbase):
-    pass
+    filename = username['goal'] + ' ' + username['sex'] + '.json'
+    for item in os.scandir('trainings'):
+        if basename(item) == filename:
+            with open(item) as file:
+                 plan = json.load(file)
+    trains(username, dbase, plan)
+    print('HAVE A NICE TRAINING!')
+    main_menu(main_menu1, username, dbase)
+    return plan
+
+
+def trains(username, dbase, personal_plan):
+    for key, value in personal_plan.items():
+        print(f'{key}:')
+        for i in value:
+            for key1, value1 in i.items():
+                print(f'{key1} - {value1}')
+
 
 
 def exit_programme(username, dbase):
