@@ -284,7 +284,7 @@ def products_name(soup):
         if "</strong>" in name  or "</div>" in name :
             pass
         else:
-            products.append( ' '.join(name.split()))
+            products.append(' '.join(name.split()))
     products[17] = '1 cookie light'
     return products
 
@@ -341,10 +341,40 @@ def products_calories(soup):
     return calories
 
 def collect_food_info(name,gramm,calories):
+    food_info = []
+    gramm_and_calories_info = []
     gram_and_calories = list(zip(gramm,calories))
-    food_info = dict(zip(name,gram_and_calories))
+    for i in gram_and_calories:
+        info = dict(gramms = i[0], callories = i[1])
+        gramm_and_calories_info.append(info)
+    food = list(zip(name,gramm_and_calories_info))
+    for i in food:
+        info = dict([(i[0],i[1])])
+        food_info.append(info)
     return food_info
 
+def sort_food_info(data):
+   fast_food = data[0:6]
+   drinks_and_coffee = data[6:14]
+   bread_biscuits_and_sweets = data[14:21]
+   fruit = data[21:31]
+   alcohol = data[31:40]
+   cereals = data[40:43]
+   pasta = data[43:47]
+   dried_fruits = data[47:52]
+   meat = data[52:63]
+   oils_and_fat = data[63:68]
+   eggs = data[68:71]
+   lacteals = data[71:78]
+   cheese = data[78:88]
+   fish_seafood = data[88:104]
+   vegetables = data[104:]
+   sorted_food = {'fast food': fast_food , 'drinks and coffee': drinks_and_coffee,
+                  'bread biscuits and sweets': bread_biscuits_and_sweets, 'fruit':fruit,
+                  'alcohol': alcohol, 'cereals': cereals,'pasta': pasta,'dried_fruits':dried_fruits,
+                  'meat': meat, 'oils and fat': oils_and_fat, 'eggs':eggs,'lacteals':lacteals,
+                  'cheese': cheese, 'fish and seafood': fish_seafood, 'vegetables': vegetables}
+   return sorted_food
 
 
 main_menu1 = {'1': ("1)See my profile", my_profile),
@@ -362,7 +392,8 @@ profile_parameters = {'1': ("1)Sex", 'sex'),
                       }
 data_base = take_data_from_database()
 print("Welcome to the Healthy lifestyle application!")
+write_html_file()
+collection = collect_food_info(products_name(create_soup()),products_gramm(create_soup()),products_calories(create_soup()))
+#print(sort_food_info(collection))
 user = username_identification(data_base)
 main_menu(main_menu1, user, data_base)
-write_html_file()
-collect_food_info(products_name(create_soup()),products_gramm(create_soup()),products_calories(create_soup()))
