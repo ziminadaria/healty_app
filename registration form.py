@@ -256,8 +256,8 @@ def change_file(dbase, username):
             count -= 1
             for value in data_base[key].values():
                 f.write(str(value) + ",")
-                if count > 0:
-                    f.write('\n')
+            if count > 0:
+                f.write('\n')
 
 def get_url():
     resp = requests.get("https://www.diet-weight-lose.com/calories/")
