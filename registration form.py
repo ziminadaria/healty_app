@@ -154,7 +154,6 @@ def counting_daily_calories(username):
         daily_calories = 0.9 * daily_calories
     elif username['goal'] == 'gain weight':
         daily_calories = 1.1 * daily_calories
-    print(int(daily_calories))
     return int(daily_calories)
 
 
@@ -265,7 +264,7 @@ def get_url():
 
 def write_html_file():
     soup = BeautifulSoup(get_url().text,'lxml')
-    with open("goods.html",'w') as f:
+    with open("goods.html",'w', encoding='utf-8') as f:
         f.write(str(soup.prettify()))
 
 def create_soup():
@@ -365,4 +364,4 @@ print("Welcome to the Healthy lifestyle application!")
 user = username_identification(data_base)
 main_menu(main_menu1, user, data_base)
 write_html_file()
-collect_food_info(products_name(create_soup()),products_gramm(create_soup()),products_calories(create_soup()))
+print(collect_food_info(products_name(create_soup()),products_gramm(create_soup()),products_calories(create_soup())))
