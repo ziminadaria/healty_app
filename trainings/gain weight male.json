@@ -1,7 +1,57 @@
 {
-  "MONDAY": [{"barbell bench press": "40 reps"}, {"dumbbell flys": "20 reps"}, {"tricep extension": "40 reps"}],
-  "TUESDAY": [{"tricep dip": "20 reps"}, {"deadlift": "40 sec"}, {"seated row": "20 reps"}],
-  "THURSDAY": [{"close lat pull down": "40 reps"}, {"incline dumbbell curl": "40 reps"}, {"military press": "40 reps"}],
-  "FRIDAY": [{"upright row": "18 reps"}, {"plank": "50 sec"}, {"squat": "40 reps"}],
-  "SUNDAY": [{"leg extension": "20 reps"}, {"lef curl": "20 reps"}, {"standing calf raise": "20 reps"}]
+  "MONDAY": [
+    {
+      "barbell bench press": "40 reps"
+    },
+    {
+      "dumbbell flys": "20 reps"
+    },
+    {
+      "tricep extension": "40 reps"
+    }
+  ],
+  "TUESDAY": [
+    {
+      "tricep dip": "20 reps"
+    },
+    {
+      "deadlift": "40 sec"
+    },
+    {
+      "seated row": "20 reps"
+    }
+  ],
+  "THURSDAY": [
+    {
+      "close lat pull down": "40 reps"
+    },
+    {
+      "incline dumbbell curl": "40 reps"
+    },
+    {
+      "military press": "40 reps"
+    }
+  ],
+  "FRIDAY": [
+    {
+      "upright row": "18 reps"
+    },
+    {
+      "plank": "50 sec"
+    },
+    {
+      "squat": "40 reps"
+    }
+  ],
+  "SUNDAY": [
+    {
+      "leg extension": "20 reps"
+    },
+    {
+      "lef curl": "20 reps"
+    },
+    {
+      "standing calf raise": "20 reps"
+    }
+  ]
 }

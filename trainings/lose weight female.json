@@ -1,7 +1,57 @@
 {
-  "MONDAY": [{"push-up": "40 sec"}, {"toe touch crunch": "40 sec"}, {"plunk up-down": "40 sec"}],
-  "TUESDAY": [{"curtsy lunge to kick (each side)": "40 sec"}, {"skater": "40 reps"}, {"toe touch crunch": "40 sec"}],
-  "THURSDAY": [{"russian twist": "20 reps"}, {"plank to downward dog tap": "10 reps"}, {"forearm plank": "40 sec"}],
-  "FRIDAY": [{"jumping jack": "40 sec"}, {"bodyweight squat": "40 sec"}, {"bodyweight forward lunge": "40 sec"}],
-  "SUNDAY": [{"plank with T-spine rotation": "40 sec"}, {"forearm plank": "40 sec"}, {"dumbbell row": "12 reps"}]
+  "MONDAY": [
+    {
+      "push-up": "40 sec"
+    },
+    {
+      "toe touch crunch": "40 sec"
+    },
+    {
+      "plunk up-down": "40 sec"
+    }
+  ],
+  "TUESDAY": [
+    {
+      "curtsy lunge to kick (each side)": "40 sec"
+    },
+    {
+      "skater": "40 reps"
+    },
+    {
+      "toe touch crunch": "40 sec"
+    }
+  ],
+  "THURSDAY": [
+    {
+      "russian twist": "20 reps"
+    },
+    {
+      "plank to downward dog tap": "10 reps"
+    },
+    {
+      "forearm plank": "40 sec"
+    }
+  ],
+  "FRIDAY": [
+    {
+      "jumping jack": "40 sec"
+    },
+    {
+      "bodyweight squat": "40 sec"
+    },
+    {
+      "bodyweight forward lunge": "40 sec"
+    }
+  ],
+  "SUNDAY": [
+    {
+      "plank with T-spine rotation": "40 sec"
+    },
+    {
+      "forearm plank": "40 sec"
+    },
+    {
+      "dumbbell row": "12 reps"
+    }
+  ]
 }

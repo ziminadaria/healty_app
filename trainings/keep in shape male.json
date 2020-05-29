@@ -1,7 +1,57 @@
 {
-  "MONDAY": [{"bodyweight squats": "20 reps"}, {"dumbbell bench press": "20 reps"}, {"dumbbell row": "20 reps"}],
-  "TUESDAY": [{"bodyweight squats": "20 reps"}, {"lying isometric Y": "45 sec"}, {"dumbbell row": "20 reps"}],
-  "THURSDAY": [{"dumbbell bench press": "20 reps"}, {"lying isometric Y": "45 sec"}, {"dumbbell row": "20 reps"}],
-  "FRIDAY": [{"box step ups": "20 reps"}, {"plank": "45 sec"}, {"dumbbell row": "20 reps"}],
-  "SUNDAY": [{"dumbbell bench press": "20 reps"}, {"lying isometric Y": "45 sec"}, {"dumbbell row": "20 reps"}]
+  "MONDAY": [
+    {
+      "bodyweight squats": "20 reps"
+    },
+    {
+      "dumbbell bench press": "20 reps"
+    },
+    {
+      "dumbbell row": "20 reps"
+    }
+  ],
+  "TUESDAY": [
+    {
+      "bodyweight squats": "20 reps"
+    },
+    {
+      "lying isometric Y": "45 sec"
+    },
+    {
+      "dumbbell row": "20 reps"
+    }
+  ],
+  "THURSDAY": [
+    {
+      "dumbbell bench press": "20 reps"
+    },
+    {
+      "lying isometric Y": "45 sec"
+    },
+    {
+      "dumbbell row": "20 reps"
+    }
+  ],
+  "FRIDAY": [
+    {
+      "box step ups": "20 reps"
+    },
+    {
+      "plank": "45 sec"
+    },
+    {
+      "dumbbell row": "20 reps"
+    }
+  ],
+  "SUNDAY": [
+    {
+      "dumbbell bench press": "20 reps"
+    },
+    {
+      "lying isometric Y": "45 sec"
+    },
+    {
+      "dumbbell row": "20 reps"
+    }
+  ]
 }

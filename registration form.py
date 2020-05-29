@@ -138,35 +138,27 @@ def my_profile(username, dbase, food_collection):
 
 def my_diet(username, dbase, food_collection):
     print(f'Daily calories sum = {counting_daily_calories(username)}')
-    fast_food = random.sample(sort_food_info(food_collection)['fast food'], 2)
     drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 2)
-    bread_and_sweets = random.sample(sort_food_info(food_collection)['bread biscuits and sweets'], 2)
     fruits = random.sample(sort_food_info(food_collection)['fruit'], 2)
     alcohol = random.sample(sort_food_info(food_collection)['alcohol'], 1)
     cereals = random.sample(sort_food_info(food_collection)['cereals'], 2)
     pasta = random.sample(sort_food_info(food_collection)['pasta'], 2)
-    dried_fruits = random.sample(sort_food_info(food_collection)['dried fruits'], 2)
-    meat = random.sample(sort_food_info(food_collection)['meat'], 2)
-    oils_and_fat = random.sample(sort_food_info(food_collection)['oils and fat'], 2)
-    eggs = random.sample(sort_food_info(food_collection)['eggs'], 2)
-    lacteals = random.sample(sort_food_info(food_collection)['lacteals'], 2)
-    cheese = random.sample(sort_food_info(food_collection)['cheese'], 2)
-    fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 2)
-    vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 2)
+    meat = random.sample(sort_food_info(food_collection)['meat'], 1)
+    fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 1)
+    vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 3)
     print('BREAKFAST:')
     sum = 0
     sum = calories_check(sum, fruits, counting_daily_calories(username))
     sum = calories_check(sum, cereals, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
-    print('LUNCH')
+    print('LUNCH:')
     sum = calories_check(sum, meat, counting_daily_calories(username))
     sum = calories_check(sum, vegetables, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
-    print('DINNER')
+    print('DINNER:')
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
-    sum = calories_check(sum, cheese, counting_daily_calories(username))
+    sum = calories_check(sum, pasta, counting_daily_calories(username))
     sum = calories_check(sum, alcohol, counting_daily_calories(username))
-    print(f'Total calories = {sum}')
     main_menu(main_menu1, username, dbase, food_collection)
 
 
@@ -176,9 +168,16 @@ def calories_check(summary, product_name, daily_norm):
         for value in i.values():
             if (summary + value['calories']) <= daily_norm:
                 summary += value['calories']
-                print(product_name[count])
+                print_menu(product_name[count])
             count += 1
     return summary
+
+
+def print_menu(data):
+    for key, value in data.items():
+        print(f'{key}:')
+        for k, v in value.items():
+            print(f'{k} - {v}')
 
 
 def counting_daily_calories(username):
@@ -221,7 +220,6 @@ def products_name(soup):
     products = []
     for line in soup:
         product.append(str(soup.find_all('div', {'class': 'divtabletd'})).split('</div>, <div class="divtabletd">'))
-
     for name in product[0]:
         if "</strong>" in name or "</div>" in name:
             pass
