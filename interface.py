@@ -223,22 +223,31 @@ def training_plan(username, dbase):
     frame_menu.forget()
     frame_trainings.pack()
     my_training_plan(username, dbase)
-    back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
-    back_to_menu.pack()
 
 
 def my_training_plan(username, dbase):
-    filename = username['goal'] + ' ' + username['sex'] + '.json'
-    for item in os.scandir('trainings'):
-        if basename(item) == filename:
-            with open(item) as file:
-                plan = json.load(file)
-    trains(plan)
-    print('HAVE A NICE TRAINING!')
-    return plan
+    try:
+        filename = username['goal'] + ' ' + username['sex'] + '.json'
+        try:
+            for item in os.scandir('trainings'):
+                if basename(item) == filename:
+                    with open(item) as file:
+                        plan = json.load(file)
+            trains(dbase, plan)
+            return plan
+        except FileNotFoundError:
+            error_message = Label(master=frame_trainings, text='THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+            error_message.pack()
+            Button_exit = Button(master=frame_trainings, text='Exit', command=lambda: quit())
+            Button_exit.pack()
+    except UnboundLocalError:
+        error_message = Label(master=frame_trainings, text='THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+        error_message.pack()
+        Button_exit = Button(master=frame_trainings, text='Exit', command=lambda: quit())
+        Button_exit.pack()
 
 
-def trains(personal_plan):
+def trains(dbase, personal_plan):
     for key, value in personal_plan.items():
         day_of_week = Label(master=frame_trainings, text=f'{key}:')
         day_of_week.pack()
@@ -246,7 +255,10 @@ def trains(personal_plan):
             for key1, value1 in i.items():
                 exercises = Label(master=frame_trainings, text=f'{key1} - {value1}')
                 exercises.pack()
-
+    message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!')
+    message.pack()
+    back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
+    back_to_menu.pack()
 
 frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
