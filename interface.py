@@ -185,12 +185,12 @@ def save(database, file):
             registration()
         else:
             break
-    data = {"name": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle,
+    data_user = {"name": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle,
             "goal": goal}
-    database[name] = data
-    add_to_data_base(data, file)
+    database[name] = data_user
+    add_to_data_base(data_user, file)
     login()
-    return data
+    return data_user
 
 
 def add_to_data_base(database, file):
