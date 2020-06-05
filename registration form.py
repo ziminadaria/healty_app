@@ -86,6 +86,7 @@ def add_to_data_base(data):
 
 def username_identification(data):
     existing_account = input("Do you have an account? (yes/no): ").strip().lower()
+
     if existing_account == 'yes':
         while True:
             name1 = input("Please, enter your name: ")

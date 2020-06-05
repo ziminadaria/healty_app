@@ -1,4 +1,10 @@
+import os
 from tkinter import *
+from os.path import basename
+import json
+from bs4 import BeautifulSoup
+import requests
+import random
 
 
 def take_data_from_database(file):
@@ -53,7 +59,6 @@ text_enter_login.pack()
 enter_login.pack()
 Button_enter.pack()
 
-
 frame_reg = Frame(root)
 text = Label(master=frame_reg, text='Please, fill in the registration form:')
 text_log = Label(master=frame_reg, text='Enter your username:')
@@ -100,7 +105,7 @@ frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
 profile = Button(master=frame_menu, text='See my profile')
 diet = Button(master=frame_menu, text='See my diet', command=lambda: print(menu(data)))
-trainings = Button(master=frame_menu, text='See my training plan')
+trainings = Button(master=frame_menu, text='See my training plan', command=lambda: training_plan(menu(data), data))
 ex = Button(master=frame_menu, text='Exit', command=lambda: quit())
 title_menu.pack()
 profile.pack()
@@ -114,6 +119,7 @@ def menu(database):
     frame_start.forget()
     frame_reg.forget()
     frame_login.forget()
+    frame_trainings.forget()
     frame_menu.pack()
     return user_base
 
@@ -186,7 +192,7 @@ def save(database, file):
         else:
             break
     data_user = {"name": name, "sex": sex, "age": age, "weight": weight, "height": height, "lifestyle": lifestyle,
-            "goal": goal}
+                 "goal": goal}
     database[name] = data_user
     add_to_data_base(data_user, file)
     login()
@@ -212,5 +218,38 @@ def log_pass(database):
         text_pass.pack()
         enter_login.get()
 
+
+def training_plan(username, dbase):
+    frame_menu.forget()
+    frame_trainings.pack()
+    my_training_plan(username, dbase)
+    back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
+    back_to_menu.pack()
+
+
+def my_training_plan(username, dbase):
+    filename = username['goal'] + ' ' + username['sex'] + '.json'
+    for item in os.scandir('trainings'):
+        if basename(item) == filename:
+            with open(item) as file:
+                plan = json.load(file)
+    trains(plan)
+    print('HAVE A NICE TRAINING!')
+    return plan
+
+
+def trains(personal_plan):
+    for key, value in personal_plan.items():
+        day_of_week = Label(master=frame_trainings, text=f'{key}:')
+        day_of_week.pack()
+        for i in value:
+            for key1, value1 in i.items():
+                exercises = Label(master=frame_trainings, text=f'{key1} - {value1}')
+                exercises.pack()
+
+
+frame_trainings = Frame(root)
+title_trainings = Label(master=frame_trainings, text='My training plan:')
+title_trainings.pack()
 
 root.mainloop()
