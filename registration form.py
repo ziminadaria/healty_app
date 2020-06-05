@@ -175,9 +175,10 @@ def calories_check(summary, product_name, daily_norm):
 
 def print_menu(data):
     for key, value in data.items():
-        print(f'{key}:')
+        print(f'{key}: ', end='')
         for k, v in value.items():
-            print(f'{k} - {v}')
+            print(f'{k} - {v}; ', end='')
+        print()
 
 
 def counting_daily_calories(username):
