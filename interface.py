@@ -113,7 +113,7 @@ frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
 title_trainings.pack()
 
-frame_change_parameter = Frame(root)
+# frame_change_parameter = Frame(root)
 
 frame_action = Frame(root)
 title_action = Label(master=frame_action, text='What do you want to change?')
@@ -140,12 +140,21 @@ parameter_goal.pack()
 frame_profile = Frame(root)
 title_profile = Label(master=frame_profile, text='My profile:')
 title_profile.pack()
+frame_change_parameter = Frame(root)
+
 
 def registration():
+    # frame_start.forget()
     frame_start.forget()
-    frame_reg.pack()
     frame_login.forget()
+    frame_profile.forget()
+    frame_action.forget()
+    frame_trainings.forget()
     frame_menu.forget()
+    frame_diet.forget()
+    frame_reg.pack()
+    # frame_login.forget()
+    # frame_menu.forget()
 
 
 def menu(database):
@@ -158,17 +167,32 @@ def menu(database):
     frame_trainings.forget()
     frame_menu.pack()
     frame_diet.forget()
+    frame_diet.forget()
     return user_base
 
 
 def login():
+    # frame_start.forget()
+    # frame_reg.forget()
     frame_start.forget()
     frame_reg.forget()
-    frame_login.pack()
+    frame_profile.forget()
+    frame_action.forget()
+    frame_trainings.forget()
     frame_menu.forget()
+    frame_diet.forget()
+    frame_login.pack()
+    # frame_menu.forget()
 
 
 def diet(username, database, food):
+    # frame_menu.forget()
+    frame_start.forget()
+    frame_reg.forget()
+    frame_login.forget()
+    frame_profile.forget()
+    frame_action.forget()
+    frame_trainings.forget()
     frame_menu.forget()
     frame_diet.pack()
     my_diet(username, database, food)
@@ -262,6 +286,13 @@ def log_pass(database):
 
 def training_plan(username, dbase):
     frame_menu.forget()
+    frame_start.forget()
+    frame_reg.forget()
+    frame_login.forget()
+    frame_profile.forget()
+    frame_action.forget()
+    frame_diet.forget()
+    frame_diet.forget()
     frame_trainings.pack()
     my_training_plan(username, dbase)
 
@@ -329,7 +360,7 @@ def my_diet(username, dbase, food_collection):
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
     sum = calories_check(sum, pasta, counting_daily_calories(username))
     sum = calories_check(sum, alcohol, counting_daily_calories(username))
-    back = Button(master=frame_diet, text='BACK', command= lambda: menu(dbase))
+    back = Button(master=frame_diet, text='BACK', command=lambda: menu(dbase))
     back.pack()
 
 
@@ -501,8 +532,16 @@ collection = collect_food_info(products_name(create_soup()), products_gramm(crea
 
 
 def profile(username, dbase):
-    frame_menu.forget()
+    # frame_menu.forget()
+    # frame_action.forget()
+    frame_start.forget()
+    frame_reg.forget()
+    frame_login.forget()
     frame_action.forget()
+    frame_trainings.forget()
+    frame_menu.forget()
+    frame_diet.forget()
+    frame_diet.forget()
     frame_profile.pack()
     my_profile(username, dbase)
 
@@ -522,6 +561,14 @@ def my_profile(username, dbase):
 def take_action(username, dbase):
     frame_menu.forget()
     frame_profile.forget()
+    frame_start.forget()
+    frame_reg.forget()
+    frame_login.forget()
+    frame_profile.forget()
+    frame_trainings.forget()
+    frame_menu.forget()
+    frame_diet.forget()
+    frame_diet.forget()
     frame_action.pack()
     # action(username, dbase)
 
@@ -533,6 +580,15 @@ def take_action(username, dbase):
 def change_parameters(key, username, dbase):
     frame_menu.forget()
     frame_action.forget()
+    frame_start.forget()
+    frame_reg.forget()
+    frame_login.forget()
+    frame_profile.forget()
+    frame_action.forget()
+    frame_trainings.forget()
+    frame_menu.forget()
+    frame_diet.forget()
+    frame_diet.forget()
     frame_change_parameter.pack()
     parameters(key, username, dbase)
 
@@ -544,78 +600,92 @@ def parameters(key, username, dbase):
         par = Entry(master=frame_change_parameter)
         par.pack()
         ok_button = Button(master=frame_change_parameter, text='ok', width='15',
-                           command=lambda: change_check(par.get(), username, dbase))
+                           command=lambda: change_sex_check(key, par.get(), username, dbase))
         ok_button.pack()
-        # sex = par.get()
+    elif key == 'age':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_check(key, par.get(), username, dbase))
+        ok_button.pack()
+    elif key == 'weight':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_check(key, par.get(), username, dbase))
+        ok_button.pack()
+    elif key == 'height':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_check(key, par.get(), username, dbase))
+        ok_button.pack()
+    elif key == 'lifestyle':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_lifestyle_check(key, par.get(), username, dbase))
+        ok_button.pack()
+    elif key == 'goal':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_goal_check(key, par.get(), username, dbase))
+        ok_button.pack()
 
 
-def change_check(key, username, dbase):
-    if key != 'male' and key != 'female':
-        print("Wrong input! Choose between two variants.")
+def change_sex_check(key_sex, par, username, dbase):
+    if par != 'male' and par != 'female':
+        error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.pack()
     else:
-        print('ok')
-
-        # sex = input("Enter your sex (male/female): ")
-        # if sex != 'male' and sex != 'female':
-        #     print("Wrong input! Choose between two variants.")
-        # else:
-        #     print('ok')
-        #         parameter = par.get()
-        #         # parameter = input(f'Please, choose another {key}: ')
-    # if type(username[key]) == int:
+        username[key_sex] = par
+        dbase[username['name']] = username
+        change_file(dbase, username)
 
 
-#         par = Entry(master=frame_change_parameter)
-#         par.pack()
-#         parameter = par.get()
-#         # parameter = input(f'Please, choose another {key}: ')
-#         if parameter.isdigit():
-#             username[key] = int(parameter)
-#             dbase[username['name']] = username
-#             change_file(dbase, username)
-#             profile(username, dbase)
-#         else:
-#             error_message = Label(master=frame_change_parameter, text=f'{key}:', fg='#f20c0c', font='Calluna')
-#             error_message.pack()
-#             print('INCORRECT INPUT! TRY AGAIN!')
-#     else:
-#         if key == 'sex':
-#             sex = input("Enter your sex (male/female): ")
-#             if sex != 'male' and sex != 'female':
-#                 print("Wrong input! Choose between two variants.")
-#             else:
-#                 username[key] = sex
-#                 dbase[username['name']] = username
-#                 change_file(dbase, username)
-#             profile(username, dbase)
-#         elif key == 'lifestyle':
-#             lifestyle = input("Enter your type of lifestyle (active/not active): ")
-#             if lifestyle != 'active' and lifestyle != 'not active':
-#                 print("Wrong input! Choose between two variants.")
-#             else:
-#                 username[key] = lifestyle
-#                 dbase[username['name']] = username
-#                 change_file(dbase, username)
-#             profile(username, dbase)
-#         elif key == 'goal':
-#             goal = input("Choose your new goal (lose weight/gain weight/keep in shape): ")
-#             if goal != 'lose weight' and goal != 'gain weight' and goal != 'keep in shape':
-#                 print("Wrong input! Choose between three variants.")
-#             else:
-#                 username[key] = goal
-#                 dbase[username['name']] = username
-#                 change_file(dbase, username)
-#             profile(username, dbase)
-#
-#
-# def change_file(dbase, username):
-#     count = len(dbase)
-#     with open('data base.txt', 'w') as f:
-#         for key in dbase:
-#             count -= 1
-#             for value in dbase[key].values():
-#                 f.write(str(value) + ",")
-#             if count > 0:
-#                 f.write('\n')
+def change_lifestyle_check(key_lifestyle, par, username, dbase):
+    if par != 'active' and par != 'not active':
+        error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.pack()
+    else:
+        username[key_lifestyle] = par
+        dbase[username['name']] = username
+        change_file(dbase, username)
+
+
+def change_goal_check(key_goal, par, username, dbase):
+    if par != 'lose weight' and par != 'gain weight' and par != 'keep in shape':
+        error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.pack()
+    else:
+        username[key_goal] = par
+        dbase[username['name']] = username
+        change_file(dbase, username)
+
+
+def change_check(key_par, par, username, dbase):
+    try:
+        par = int(par)
+        username[key_par] = par
+        dbase[username['name']] = username
+        change_file(dbase, username)
+    except:
+        error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.pack()
+
+
+def change_file(dbase, username):
+    count = len(dbase)
+    with open('data base.txt', 'w') as f:
+        for key in dbase:
+            count -= 1
+            for value in dbase[key].values():
+                f.write(str(value) + ",")
+            if count > 0:
+                f.write('\n')
+    frame_change_parameter.forget()
+    profile(username, dbase)
+
 
 root.mainloop()
