@@ -41,9 +41,9 @@ frame_start = Frame(root)
 
 frame_start.pack()
 text_start = Label(master=frame_start, text='Choose an action:')
-Button_reg = Button(master=frame_start, text='Sign up', command=lambda: registration())
-Button_log = Button(master=frame_start, text='Log in', command=lambda: login())
-Button_quit = Button(master=frame_start, text='Quit', command=lambda: quit())
+Button_reg = Button(master=frame_start, text='Sign up', width='10', command=lambda: registration())
+Button_log = Button(master=frame_start, text='Log in', width='10', command=lambda: login())
+Button_quit = Button(master=frame_start, text='Quit', width='10', command=lambda: quit())
 text_start.pack()
 Button_reg.pack()
 Button_log.pack()
@@ -103,10 +103,10 @@ def registration():
 
 frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
-profile = Button(master=frame_menu, text='See my profile')
-diet = Button(master=frame_menu, text='See my diet', command=lambda: print(menu(data)))
-trainings = Button(master=frame_menu, text='See my training plan', command=lambda: training_plan(menu(data), data))
-ex = Button(master=frame_menu, text='Exit', command=lambda: quit())
+profile = Button(master=frame_menu, text='See my profile', width='15')
+diet = Button(master=frame_menu, text='See my diet', width='15', command=lambda: print(menu(data)))
+trainings = Button(master=frame_menu, text='See my training plan', width='15', command=lambda: training_plan(menu(data), data))
+ex = Button(master=frame_menu, text='Exit', width='15', command=lambda: quit())
 title_menu.pack()
 profile.pack()
 diet.pack()
@@ -249,13 +249,13 @@ def my_training_plan(username, dbase):
 
 def trains(dbase, personal_plan):
     for key, value in personal_plan.items():
-        day_of_week = Label(master=frame_trainings, text=f'{key}:')
+        day_of_week = Label(master=frame_trainings, text=f'{key}:', fg='#f20c0c', font='Calluna')
         day_of_week.pack()
         for i in value:
             for key1, value1 in i.items():
-                exercises = Label(master=frame_trainings, text=f'{key1} - {value1}')
+                exercises = Label(master=frame_trainings, text=f'{key1} - {value1}', bg='azure')
                 exercises.pack()
-    message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!')
+    message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!', fg='#f20c0c')
     message.pack()
     back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
     back_to_menu.pack()
