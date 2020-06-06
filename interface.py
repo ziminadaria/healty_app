@@ -31,6 +31,8 @@ def take_data_from_database(file):
 root = Tk()
 root.geometry('500x500')
 root.title('Healthy Lifestyle Application')
+
+
 try:
     data = take_data_from_database('data base.txt')
 except FileNotFoundError:
@@ -104,14 +106,18 @@ def registration():
 frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
 profile = Button(master=frame_menu, text='See my profile', width='15')
-diet = Button(master=frame_menu, text='See my diet', width='15', command=lambda: print(menu(data)))
-trainings = Button(master=frame_menu, text='See my training plan', width='15', command=lambda: training_plan(menu(data), data))
+diet = Button(master=frame_menu, text='See my diet', width='15', command=lambda: diet(menu(data), data, collection))
+trainings = Button(master=frame_menu, text='See my training plan', width='15', command=lambda: training_plan(menu(data),
+                                                                                                             data))
 ex = Button(master=frame_menu, text='Exit', width='15', command=lambda: quit())
 title_menu.pack()
 profile.pack()
 diet.pack()
 trainings.pack()
 ex.pack()
+
+
+frame_diet = Frame(root)
 
 
 def menu(database):
@@ -129,6 +135,12 @@ def login():
     frame_reg.forget()
     frame_login.pack()
     frame_menu.forget()
+
+
+def diet(username, database, food):
+    frame_menu.forget()
+    frame_diet.pack()
+    my_diet(username, database, food)
 
 
 def save(database, file):
@@ -260,8 +272,200 @@ def trains(dbase, personal_plan):
     back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
     back_to_menu.pack()
 
+
+def my_diet(username, dbase, food_collection):
+    calories = Label(master=frame_diet, text=f'Daily calories sum = {counting_daily_calories(username)}')
+    calories.pack()
+    drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 2)
+    fruits = random.sample(sort_food_info(food_collection)['fruit'], 2)
+    alcohol = random.sample(sort_food_info(food_collection)['alcohol'], 1)
+    cereals = random.sample(sort_food_info(food_collection)['cereals'], 2)
+    pasta = random.sample(sort_food_info(food_collection)['pasta'], 2)
+    meat = random.sample(sort_food_info(food_collection)['meat'], 1)
+    fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 1)
+    vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 3)
+    breakfast = Label(master=frame_diet, text='BREAKFAST:')
+    breakfast.pack()
+    sum = 0
+    sum = calories_check(sum, fruits, counting_daily_calories(username))
+    sum = calories_check(sum, cereals, counting_daily_calories(username))
+    sum = calories_check(sum, drinks, counting_daily_calories(username))
+    lunch = Label(master=frame_diet, text='LUNCH:')
+    lunch.pack()
+    sum = calories_check(sum, meat, counting_daily_calories(username))
+    sum = calories_check(sum, vegetables, counting_daily_calories(username))
+    sum = calories_check(sum, drinks, counting_daily_calories(username))
+    dinner = Label(master=frame_diet, text='DINNER:')
+    dinner.pack()
+    sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
+    sum = calories_check(sum, pasta, counting_daily_calories(username))
+    sum = calories_check(sum, alcohol, counting_daily_calories(username))
+
+
+def calories_check(summary, product_name, daily_norm):
+    count = 0
+    for i in product_name:
+        for value in i.values():
+            if (summary + value['calories']) <= daily_norm:
+                summary += value['calories']
+                print_menu(product_name[count])
+            count += 1
+    return summary
+
+
+def print_menu(data):
+    for key, value in data.items():
+        product = Label(master=frame_diet, text=f'{key}')
+        product.pack()
+        for k, v in value.items():
+            features = Label(master=frame_diet, text=f'{k} - {v}; ')
+            features.pack()
+
+
+def counting_daily_calories(username):
+    daily_calories = int(username['weight']) * 9.99 + int(username['height']) * 6.25 - int(username['age']) * 4.92
+    if username['sex'] == 'male':
+        daily_calories += 5
+    elif username['sex'] == 'female':
+        daily_calories -= 161
+    if username['lifestyle'] == 'active':
+        daily_calories *= 1.46
+    elif username['lifestyle'] == 'not active':
+        daily_calories *= 1.2
+    if username['goal'] == 'lose weight':
+        daily_calories = 0.9 * daily_calories
+    elif username['goal'] == 'gain weight':
+        daily_calories = 1.1 * daily_calories
+    return int(daily_calories)
+
+
+def get_url():
+    resp = requests.get("https://www.diet-weight-lose.com/calories/")
+    return resp
+
+
+def write_html_file():
+    soup = BeautifulSoup(get_url().text, 'lxml')
+    with open("goods.html", 'w', encoding='utf-8') as f:
+        f.write(str(soup.prettify()))
+
+
+def create_soup():
+    with open("goods.html", 'r') as f:
+        contents = f.read()
+    soup = BeautifulSoup(contents, "lxml")
+    return soup
+
+
+def products_name(soup):
+    product = []
+    products = []
+    for line in soup:
+        product.append(str(soup.find_all('div', {'class': 'divtabletd'})).split('</div>, <div class="divtabletd">'))
+    for name in product[0]:
+        if "</strong>" in name or "</div>" in name:
+            pass
+        else:
+            products.append(' '.join(name.split()))
+    products[17] = '1 cookie light'
+    return products
+
+
+def products_gramm(soup):
+    gramm = []
+    grammovka = []
+    gramms = []
+    for line in soup:
+        gramm.append(str(soup.find_all('div', {'class': 'divtabletd1'})).split('</div>, <div class="divtabletd1">'))
+
+    for quantity in gramm[0]:
+        if "Quantity" in quantity or "</div>" in quantity:
+            pass
+        else:
+            grammovka.append(' '.join(quantity.split()))
+
+    for string in grammovka:
+        if string[0:7] == "portion" and string[18:20] != 'oz':
+            gramms.append(int(string[16:19]))
+        if string[0:7] == "portion" and string[18:20] == 'oz':
+            gramms.append(int(string[23:26]))
+        if string[3:5] == 'oz':
+            gramms.append(int(string[7:10]))
+        if string[:8] == 'baguette':
+            gramms.append(int(string[24:27]))
+        if string == '50 gr':
+            gramms.append(50)
+        if string[:5] == 'spoon':
+            gramms.append(int(string[13:15]))
+        if string[:8] == "2 spoons":
+            gramms.append(int(string[16:18]))
+        if string[:4] == 'unit' and string[16:18] != 'oz':
+            gramms.append(50)
+        if string[:4] == 'unit' and string[16:18] == 'oz':
+            gramms.append(int(string[20:23]))
+        if string[:7] == "2 units":
+            gramms.append(int(string[23:26]))
+        if string[-2:] == "cl":
+            gramms.append(string)
+    return gramms
+
+
+def products_calories(soup):
+    calori = []
+    calories = []
+    for line in soup:
+        calori.append(str(soup.find_all('div', {'class': 'divtabletd2'})).split('</div>, <div class="divtabletd2">'))
+
+    for quantity in calori[0]:
+        if "Calories" in quantity or "</div>" in quantity:
+            pass
+        else:
+            calories.append(int(' '.join(quantity.split())))
+    return calories
+
+
+def collect_food_info(name, gramm, calories):
+    food_info = []
+    gramm_and_calories_info = []
+    gram_and_calories = list(zip(gramm, calories))
+    for i in gram_and_calories:
+        info = dict(gramms=i[0], calories=i[1])
+        gramm_and_calories_info.append(info)
+    food = list(zip(name, gramm_and_calories_info))
+    for i in food:
+        info = dict([(i[0], i[1])])
+        food_info.append(info)
+    return food_info
+
+
+def sort_food_info(data):
+    fast_food = data[0:6]
+    drinks_and_coffee = data[6:14]
+    bread_biscuits_and_sweets = data[14:21]
+    fruit = data[21:31]
+    alcohol = data[31:40]
+    cereals = data[40:43]
+    pasta = data[43:47]
+    dried_fruits = data[47:52]
+    meat = data[52:63]
+    oils_and_fat = data[63:68]
+    eggs = data[68:71]
+    lacteals = data[71:78]
+    cheese = data[78:88]
+    fish_seafood = data[88:104]
+    vegetables = data[104:]
+    sorted_food = {'fast food': fast_food, 'drinks and coffee': drinks_and_coffee,
+                   'bread biscuits and sweets': bread_biscuits_and_sweets, 'fruit': fruit,
+                   'alcohol': alcohol, 'cereals': cereals, 'pasta': pasta, 'dried fruits': dried_fruits,
+                   'meat': meat, 'oils and fat': oils_and_fat, 'eggs': eggs, 'lacteals': lacteals,
+                   'cheese': cheese, 'fish and seafood': fish_seafood, 'vegetables': vegetables}
+    return sorted_food
+
+
+write_html_file()
+collection = collect_food_info(products_name(create_soup()), products_gramm(create_soup()),
+                               products_calories(create_soup()))
 frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
 title_trainings.pack()
-
 root.mainloop()
