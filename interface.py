@@ -127,6 +127,7 @@ def menu(database):
     frame_action.forget()
     frame_trainings.forget()
     frame_menu.pack()
+    frame_diet.forget()
     return user_base
 
 
@@ -276,13 +277,13 @@ def trains(dbase, personal_plan):
 def my_diet(username, dbase, food_collection):
     calories = Label(master=frame_diet, text=f'Daily calories sum = {counting_daily_calories(username)}')
     calories.pack()
-    drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 2)
+    drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 1)
     fruits = random.sample(sort_food_info(food_collection)['fruit'], 2)
     alcohol = random.sample(sort_food_info(food_collection)['alcohol'], 1)
-    cereals = random.sample(sort_food_info(food_collection)['cereals'], 2)
-    pasta = random.sample(sort_food_info(food_collection)['pasta'], 2)
+    cereals = random.sample(sort_food_info(food_collection)['cereals'], 1)
+    pasta = random.sample(sort_food_info(food_collection)['pasta'], 1)
     meat = random.sample(sort_food_info(food_collection)['meat'], 1)
-    fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 1)
+    fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 2)
     vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 3)
     breakfast = Label(master=frame_diet, text='BREAKFAST:')
     breakfast.pack()
@@ -300,6 +301,8 @@ def my_diet(username, dbase, food_collection):
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
     sum = calories_check(sum, pasta, counting_daily_calories(username))
     sum = calories_check(sum, alcohol, counting_daily_calories(username))
+    back = Button(master=frame_diet, text='BACK', command= lambda: menu(dbase))
+    back.pack()
 
 
 def calories_check(summary, product_name, daily_norm):
@@ -314,12 +317,14 @@ def calories_check(summary, product_name, daily_norm):
 
 
 def print_menu(data):
+    count = 0
     for key, value in data.items():
-        product = Label(master=frame_diet, text=f'{key}')
-        product.pack()
+        count += 1
         for k, v in value.items():
-            features = Label(master=frame_diet, text=f'{k} - {v}; ')
-            features.pack()
+            if count == 1:
+                features = Label(master=frame_diet, text=f'{key}: {k} - {v};')
+                features.pack()
+                count = 0
 
 
 def counting_daily_calories(username):
