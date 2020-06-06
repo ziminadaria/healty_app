@@ -418,7 +418,7 @@ def change_file(dbase, username):
     with open('data base.txt', 'w') as f:
         for key in dbase:
             count -= 1
-            for value in data_base[key].values():
+            for value in dbase[key].values():
                 f.write(str(value) + ",")
             if count > 0:
                 f.write('\n')

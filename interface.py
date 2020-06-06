@@ -32,7 +32,6 @@ root = Tk()
 root.geometry('500x500')
 root.title('Healthy Lifestyle Application')
 
-
 try:
     data = take_data_from_database('data base.txt')
 except FileNotFoundError:
@@ -105,7 +104,7 @@ def registration():
 
 frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
-profile = Button(master=frame_menu, text='See my profile', width='15')
+profile = Button(master=frame_menu, text='See my profile', width='15', command=lambda: profile(menu(data), data))
 diet = Button(master=frame_menu, text='See my diet', width='15', command=lambda: diet(menu(data), data, collection))
 trainings = Button(master=frame_menu, text='See my training plan', width='15', command=lambda: training_plan(menu(data),
                                                                                                              data))
@@ -116,7 +115,6 @@ diet.pack()
 trainings.pack()
 ex.pack()
 
-
 frame_diet = Frame(root)
 
 
@@ -125,6 +123,8 @@ def menu(database):
     frame_start.forget()
     frame_reg.forget()
     frame_login.forget()
+    frame_profile.forget()
+    frame_action.forget()
     frame_trainings.forget()
     frame_menu.pack()
     return user_base
@@ -468,4 +468,155 @@ collection = collect_food_info(products_name(create_soup()), products_gramm(crea
 frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
 title_trainings.pack()
+
+
+def profile(username, dbase):
+    frame_menu.forget()
+    frame_action.forget()
+    frame_profile.pack()
+    my_profile(username, dbase)
+
+
+def my_profile(username, dbase):
+    for key, value in username.items():
+        profile_attributes = Label(master=frame_profile, text=f'{key} - {value}', bg='azure')
+        profile_attributes.pack()
+    profile_change = Label(master=frame_profile, text=f'Do you want to change your profile?')
+    profile_change.pack()
+    yes_button = Button(master=frame_profile, text='Yes', command=lambda: take_action(username, dbase))
+    yes_button.pack()
+    no_button = Button(master=frame_profile, text='No', command=lambda: menu(dbase))
+    no_button.pack()
+
+
+frame_profile = Frame(root)
+title_profile = Label(master=frame_profile, text='My profile:')
+title_profile.pack()
+
+
+def take_action(username, dbase):
+    frame_menu.forget()
+    frame_profile.forget()
+    frame_action.pack()
+    # action(username, dbase)
+
+
+# def action(username, dbase):
+#     pass
+
+
+frame_action = Frame(root)
+title_action = Label(master=frame_action, text='What do you want to change?')
+title_action.pack()
+parameter_sex = Button(master=frame_action, text='Sex', width='15',
+                       command=lambda: change_parameters('sex', menu(data), data))
+parameter_age = Button(master=frame_action, text='Age', width='15',
+                       command=lambda: change_parameters('age', menu(data), data))
+parameter_weight = Button(master=frame_action, text='Weight', width='15',
+                          command=lambda: change_parameters('weight', menu(data), data))
+parameter_height = Button(master=frame_action, text='Height', width='15',
+                          command=lambda: change_parameters('height', menu(data), data))
+parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15',
+                             command=lambda: change_parameters('lifestyle', menu(data), data))
+parameter_goal = Button(master=frame_action, text='Goal', width='15',
+                        command=lambda: change_parameters('goal', menu(data), data))
+parameter_sex.pack()
+parameter_age.pack()
+parameter_weight.pack()
+parameter_height.pack()
+parameter_lifestyle.pack()
+parameter_goal.pack()
+
+
+def change_parameters(key, username, dbase):
+    frame_menu.forget()
+    frame_action.forget()
+    frame_change_parameter.pack()
+    parameters(key, username, dbase)
+
+
+def parameters(key, username, dbase):
+    text_messages = Label(master=frame_change_parameter, text=f'Please, choose another {key}:', font='Calluna')
+    text_messages.pack()
+    if key == 'sex':
+        par = Entry(master=frame_change_parameter)
+        par.pack()
+        ok_button = Button(master=frame_change_parameter, text='ok', width='15',
+                           command=lambda: change_check(par.get(), username, dbase))
+        ok_button.pack()
+        # sex = par.get()
+
+
+def change_check(key, username, dbase):
+    if key != 'male' and key != 'female':
+        print("Wrong input! Choose between two variants.")
+    else:
+        print('ok')
+
+        # sex = input("Enter your sex (male/female): ")
+        # if sex != 'male' and sex != 'female':
+        #     print("Wrong input! Choose between two variants.")
+        # else:
+        #     print('ok')
+        #         parameter = par.get()
+        #         # parameter = input(f'Please, choose another {key}: ')
+    # if type(username[key]) == int:
+
+
+#         par = Entry(master=frame_change_parameter)
+#         par.pack()
+#         parameter = par.get()
+#         # parameter = input(f'Please, choose another {key}: ')
+#         if parameter.isdigit():
+#             username[key] = int(parameter)
+#             dbase[username['name']] = username
+#             change_file(dbase, username)
+#             profile(username, dbase)
+#         else:
+#             error_message = Label(master=frame_change_parameter, text=f'{key}:', fg='#f20c0c', font='Calluna')
+#             error_message.pack()
+#             print('INCORRECT INPUT! TRY AGAIN!')
+#     else:
+#         if key == 'sex':
+#             sex = input("Enter your sex (male/female): ")
+#             if sex != 'male' and sex != 'female':
+#                 print("Wrong input! Choose between two variants.")
+#             else:
+#                 username[key] = sex
+#                 dbase[username['name']] = username
+#                 change_file(dbase, username)
+#             profile(username, dbase)
+#         elif key == 'lifestyle':
+#             lifestyle = input("Enter your type of lifestyle (active/not active): ")
+#             if lifestyle != 'active' and lifestyle != 'not active':
+#                 print("Wrong input! Choose between two variants.")
+#             else:
+#                 username[key] = lifestyle
+#                 dbase[username['name']] = username
+#                 change_file(dbase, username)
+#             profile(username, dbase)
+#         elif key == 'goal':
+#             goal = input("Choose your new goal (lose weight/gain weight/keep in shape): ")
+#             if goal != 'lose weight' and goal != 'gain weight' and goal != 'keep in shape':
+#                 print("Wrong input! Choose between three variants.")
+#             else:
+#                 username[key] = goal
+#                 dbase[username['name']] = username
+#                 change_file(dbase, username)
+#             profile(username, dbase)
+#
+#
+# def change_file(dbase, username):
+#     count = len(dbase)
+#     with open('data base.txt', 'w') as f:
+#         for key in dbase:
+#             count -= 1
+#             for value in dbase[key].values():
+#                 f.write(str(value) + ",")
+#             if count > 0:
+#                 f.write('\n')
+
+
+frame_change_parameter = Frame(root)
+
 root.mainloop()
