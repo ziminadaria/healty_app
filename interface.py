@@ -113,8 +113,6 @@ frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
 title_trainings.pack()
 
-# frame_change_parameter = Frame(root)
-
 frame_action = Frame(root)
 title_action = Label(master=frame_action, text='What do you want to change?')
 title_action.pack()
@@ -140,11 +138,11 @@ parameter_goal.pack()
 frame_profile = Frame(root)
 title_profile = Label(master=frame_profile, text='My profile:')
 title_profile.pack()
+
 frame_change_parameter = Frame(root)
 
 
 def registration():
-    # frame_start.forget()
     frame_start.forget()
     frame_login.forget()
     frame_profile.forget()
@@ -153,8 +151,7 @@ def registration():
     frame_menu.forget()
     frame_diet.forget()
     frame_reg.pack()
-    # frame_login.forget()
-    # frame_menu.forget()
+    frame_change_parameter.forget()
 
 
 def menu(database):
@@ -167,13 +164,11 @@ def menu(database):
     frame_trainings.forget()
     frame_menu.pack()
     frame_diet.forget()
-    frame_diet.forget()
+    frame_change_parameter.forget()
     return user_base
 
 
 def login():
-    # frame_start.forget()
-    # frame_reg.forget()
     frame_start.forget()
     frame_reg.forget()
     frame_profile.forget()
@@ -182,11 +177,10 @@ def login():
     frame_menu.forget()
     frame_diet.forget()
     frame_login.pack()
-    # frame_menu.forget()
+    frame_change_parameter.forget()
 
 
 def diet(username, database, food):
-    # frame_menu.forget()
     frame_start.forget()
     frame_reg.forget()
     frame_login.forget()
@@ -195,6 +189,7 @@ def diet(username, database, food):
     frame_trainings.forget()
     frame_menu.forget()
     frame_diet.pack()
+    frame_change_parameter.forget()
     my_diet(username, database, food)
 
 
@@ -292,8 +287,8 @@ def training_plan(username, dbase):
     frame_profile.forget()
     frame_action.forget()
     frame_diet.forget()
-    frame_diet.forget()
     frame_trainings.pack()
+    frame_change_parameter.forget()
     my_training_plan(username, dbase)
 
 
@@ -532,8 +527,6 @@ collection = collect_food_info(products_name(create_soup()), products_gramm(crea
 
 
 def profile(username, dbase):
-    # frame_menu.forget()
-    # frame_action.forget()
     frame_start.forget()
     frame_reg.forget()
     frame_login.forget()
@@ -541,8 +534,8 @@ def profile(username, dbase):
     frame_trainings.forget()
     frame_menu.forget()
     frame_diet.forget()
-    frame_diet.forget()
     frame_profile.pack()
+    frame_change_parameter.forget()
     my_profile(username, dbase)
 
 
@@ -566,10 +559,9 @@ def take_action(username, dbase):
     frame_login.forget()
     frame_profile.forget()
     frame_trainings.forget()
-    frame_menu.forget()
-    frame_diet.forget()
     frame_diet.forget()
     frame_action.pack()
+    frame_change_parameter.forget()
     # action(username, dbase)
 
 
@@ -586,8 +578,6 @@ def change_parameters(key, username, dbase):
     frame_profile.forget()
     frame_action.forget()
     frame_trainings.forget()
-    frame_menu.forget()
-    frame_diet.forget()
     frame_diet.forget()
     frame_change_parameter.pack()
     parameters(key, username, dbase)
