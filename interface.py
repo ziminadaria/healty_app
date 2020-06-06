@@ -94,14 +94,6 @@ text_goal.pack()
 reg_goal.pack()
 Button_reg.pack()
 
-
-def registration():
-    frame_start.forget()
-    frame_reg.pack()
-    frame_login.forget()
-    frame_menu.forget()
-
-
 frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
 profile = Button(master=frame_menu, text='See my profile', width='15', command=lambda: profile(menu(data), data))
@@ -116,6 +108,44 @@ trainings.pack()
 ex.pack()
 
 frame_diet = Frame(root)
+
+frame_trainings = Frame(root)
+title_trainings = Label(master=frame_trainings, text='My training plan:')
+title_trainings.pack()
+
+frame_change_parameter = Frame(root)
+
+frame_action = Frame(root)
+title_action = Label(master=frame_action, text='What do you want to change?')
+title_action.pack()
+parameter_sex = Button(master=frame_action, text='Sex', width='15',
+                       command=lambda: change_parameters('sex', menu(data), data))
+parameter_age = Button(master=frame_action, text='Age', width='15',
+                       command=lambda: change_parameters('age', menu(data), data))
+parameter_weight = Button(master=frame_action, text='Weight', width='15',
+                          command=lambda: change_parameters('weight', menu(data), data))
+parameter_height = Button(master=frame_action, text='Height', width='15',
+                          command=lambda: change_parameters('height', menu(data), data))
+parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15',
+                             command=lambda: change_parameters('lifestyle', menu(data), data))
+parameter_goal = Button(master=frame_action, text='Goal', width='15',
+                        command=lambda: change_parameters('goal', menu(data), data))
+parameter_sex.pack()
+parameter_age.pack()
+parameter_weight.pack()
+parameter_height.pack()
+parameter_lifestyle.pack()
+parameter_goal.pack()
+
+frame_profile = Frame(root)
+title_profile = Label(master=frame_profile, text='My profile:')
+title_profile.pack()
+
+def registration():
+    frame_start.forget()
+    frame_reg.pack()
+    frame_login.forget()
+    frame_menu.forget()
 
 
 def menu(database):
@@ -225,8 +255,6 @@ def log_pass(database):
         print('You have logged in.')
         menu(database)
     else:
-        # message = Label(text='Wrong username. Restart the application and try again!')
-        # message.pack()
         text_pass = Label(master=frame_login, text='Username does not exist in data base. Please, try again!')
         text_pass.pack()
         enter_login.get()
@@ -470,9 +498,6 @@ def sort_food_info(data):
 write_html_file()
 collection = collect_food_info(products_name(create_soup()), products_gramm(create_soup()),
                                products_calories(create_soup()))
-frame_trainings = Frame(root)
-title_trainings = Label(master=frame_trainings, text='My training plan:')
-title_trainings.pack()
 
 
 def profile(username, dbase):
@@ -494,11 +519,6 @@ def my_profile(username, dbase):
     no_button.pack()
 
 
-frame_profile = Frame(root)
-title_profile = Label(master=frame_profile, text='My profile:')
-title_profile.pack()
-
-
 def take_action(username, dbase):
     frame_menu.forget()
     frame_profile.forget()
@@ -508,29 +528,6 @@ def take_action(username, dbase):
 
 # def action(username, dbase):
 #     pass
-
-
-frame_action = Frame(root)
-title_action = Label(master=frame_action, text='What do you want to change?')
-title_action.pack()
-parameter_sex = Button(master=frame_action, text='Sex', width='15',
-                       command=lambda: change_parameters('sex', menu(data), data))
-parameter_age = Button(master=frame_action, text='Age', width='15',
-                       command=lambda: change_parameters('age', menu(data), data))
-parameter_weight = Button(master=frame_action, text='Weight', width='15',
-                          command=lambda: change_parameters('weight', menu(data), data))
-parameter_height = Button(master=frame_action, text='Height', width='15',
-                          command=lambda: change_parameters('height', menu(data), data))
-parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15',
-                             command=lambda: change_parameters('lifestyle', menu(data), data))
-parameter_goal = Button(master=frame_action, text='Goal', width='15',
-                        command=lambda: change_parameters('goal', menu(data), data))
-parameter_sex.pack()
-parameter_age.pack()
-parameter_weight.pack()
-parameter_height.pack()
-parameter_lifestyle.pack()
-parameter_goal.pack()
 
 
 def change_parameters(key, username, dbase):
@@ -620,8 +617,5 @@ def change_check(key, username, dbase):
 #                 f.write(str(value) + ",")
 #             if count > 0:
 #                 f.write('\n')
-
-
-frame_change_parameter = Frame(root)
 
 root.mainloop()
