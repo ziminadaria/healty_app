@@ -109,7 +109,6 @@ def username_identification(data):
         print("Wrong input. Please, try once again!")
         username_identification(data)
 
-
 def main_menu(dictionary, username, dbase, food_collection):
     for value in dictionary.values():
         print(value[0])
@@ -245,27 +244,14 @@ def products_gramm(soup):
             grammovka.append(' '.join(quantity.split()))
 
     for string in grammovka:
-        if string[0:7] == "portion" and string[18:20] != 'oz':
-            gramms.append(int(string[16:19]))
-        if string[0:7] == "portion" and string[18:20] == 'oz':
-            gramms.append(int(string[23:26]))
-        if string[3:5] == 'oz':
-            gramms.append(int(string[7:10]))
-        if string[:8] == 'baguette':
-            gramms.append(int(string[24:27]))
-        if string == '50 gr':
+        if "gr" in string:
+            val = string.split()
+            for elem in val:
+                if elem == 'gr' or elem =='gr)':
+                     gramms.append(int(val[val.index(elem)-1]))
+        if 'unit' in string:
             gramms.append(50)
-        if string[:5] == 'spoon':
-            gramms.append(int(string[13:15]))
-        if string[:8] == "2 spoons":
-            gramms.append(int(string[16:18]))
-        if string[:4] == 'unit' and string[16:18] != 'oz':
-            gramms.append(50)
-        if string[:4] == 'unit' and string[16:18] == 'oz':
-            gramms.append(int(string[20:23]))
-        if string[:7] == "2 units":
-            gramms.append(int(string[23:26]))
-        if string[-2:] == "cl":
+        if "cl" in string:
             gramms.append(string)
     return gramms
 
@@ -444,3 +430,4 @@ collection = collect_food_info(products_name(create_soup()), products_gramm(crea
 print("Welcome to the Healthy lifestyle application!")
 user = username_identification(data_base)
 main_menu(main_menu1, user, data_base, collection)
+
