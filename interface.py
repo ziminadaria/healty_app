@@ -692,7 +692,7 @@ def change_file(dbase, username):
             if count > 0:
                 f.write('\n')
     frame_change_parameter.forget()
-    profile(username, dbase)
+    menu(dbase)
 
 
 root.mainloop()
