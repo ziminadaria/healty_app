@@ -76,7 +76,6 @@ text_lifestyle = Label(master=frame_reg, text='Enter your lifestyle (active/not 
 reg_lifestyle = Entry(master=frame_reg)
 text_goal = Label(master=frame_reg, text='Enter your goal (lose weight/gain weight/keep in shape):')
 reg_goal = Entry(master=frame_reg)
-Button_reg = Button(master=frame_reg, text='Sign up', command=lambda: save(data, 'data base.txt'))
 text.pack()
 text_log.pack()
 reg_login.pack()
@@ -92,7 +91,59 @@ text_lifestyle.pack()
 reg_lifestyle.pack()
 text_goal.pack()
 reg_goal.pack()
+Button_reg = Button(master=frame_reg, text='Sign up',
+                    command=lambda: check_reg('name', reg_login.get(), 'sex', reg_sex.get(), 'lifestyle',
+                                              reg_lifestyle.get(), 'goal',
+                                              reg_goal.get(), 'age', reg_age.get(), 'weight', reg_weight.get(),
+                                              'height', reg_height.get(), data))
 Button_reg.pack()
+
+
+def check_reg(key_login, par_login, key_sex, par_sex, key_lifestyle, par_lifestyle, key_goal, par_goal, key_age,
+              par_age, key_weight,
+              par_weight, key_height, par_height, dbase):
+    if par_login in dbase.keys():
+        error_message = Label(master=frame_reg, text=f'Name {key_login} already exists! Please, choose another one.')
+        error_message.pack()
+    elif par_sex != 'male' and par_sex != 'female':
+        error_message = Label(master=frame_reg, text=f'Wrong {key_sex} input!')
+        error_message.pack()
+    elif par_lifestyle != 'active' and par_lifestyle != 'not active':
+        error_message = Label(master=frame_reg, text=f'Wrong {key_lifestyle} input!')
+        error_message.pack()
+    elif par_goal != 'lose weight' and par_goal != 'gain weight' and par_goal != 'keep in shape':
+        error_message = Label(master=frame_reg, text=f'Wrong {key_goal} input!')
+        error_message.pack()
+    else:
+        check_age_reg(key_age, par_age, key_weight, par_weight, key_height, par_height, dbase)
+
+
+def check_age_reg(key_age, par_age, key_weight, par_weight, key_height, par_height, dbase):
+    try:
+        par_age = int(par_age)
+        check_weight_reg(key_weight, par_weight, key_height, par_height, dbase)
+    except ValueError:
+        error_message = Label(master=frame_reg, text=f'Wrong {key_age} input!')
+        error_message.pack()
+
+
+def check_weight_reg(key_weight, par_weight, key_height, par_height, dbase):
+    try:
+        par_weight = int(par_weight)
+        check_height_reg(key_height, par_height, dbase)
+    except ValueError:
+        error_message = Label(master=frame_reg, text=f'Wrong {key_weight} input!')
+        error_message.pack()
+
+
+def check_height_reg(key_height, par_height, dbase):
+    try:
+        par_height = int(par_height)
+        save(dbase, 'data base.txt')
+    except ValueError:
+        error_message = Label(master=frame_reg, text=f'Wrong {key_height} input!')
+        error_message.pack()
+
 
 frame_menu = Frame(root)
 title_menu = Label(master=frame_menu, text='Main menu:')
@@ -692,7 +743,7 @@ def change_file(dbase, username):
             if count > 0:
                 f.write('\n')
     frame_change_parameter.forget()
-    menu(dbase)
+    profile(username, dbase)
 
 
 root.mainloop()
