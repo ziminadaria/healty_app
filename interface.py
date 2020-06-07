@@ -136,8 +136,8 @@ parameter_lifestyle.pack()
 parameter_goal.pack()
 
 frame_profile = Frame(root)
-title_profile = Label(master=frame_profile, text='My profile:')
-title_profile.pack()
+# title_profile = Label(master=frame_profile, text='My profile:')
+# title_profile.pack()
 
 frame_change_parameter = Frame(root)
 
@@ -324,7 +324,8 @@ def trains(dbase, personal_plan):
                 exercises.pack()
     message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!', fg='#f20c0c')
     message.pack()
-    back_to_menu = Button(master=frame_trainings, text='Back to main menu', command=lambda: menu(dbase))
+    back_to_menu = Button(master=frame_trainings, text='Back to main menu',
+                          command=lambda: forget_widgets(dbase, frame_trainings))
     back_to_menu.pack()
 
 
@@ -355,8 +356,14 @@ def my_diet(username, dbase, food_collection):
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
     sum = calories_check(sum, pasta, counting_daily_calories(username))
     sum = calories_check(sum, alcohol, counting_daily_calories(username))
-    back = Button(master=frame_diet, text='BACK', command=lambda: menu(dbase))
+    back = Button(master=frame_diet, text='BACK', command=lambda: forget_widgets(dbase, frame_diet))
     back.pack()
+
+
+def forget_widgets(dbase, frame):
+    for widget in frame.winfo_children():
+        widget.destroy()
+    menu(dbase)
 
 
 def calories_check(summary, product_name, daily_norm):
@@ -540,6 +547,8 @@ def profile(username, dbase):
 
 
 def my_profile(username, dbase):
+    title_profile = Label(master=frame_profile, text='My profile:')
+    title_profile.pack()
     for key, value in username.items():
         profile_attributes = Label(master=frame_profile, text=f'{key} - {value}', bg='azure')
         profile_attributes.pack()
@@ -547,7 +556,7 @@ def my_profile(username, dbase):
     profile_change.pack()
     yes_button = Button(master=frame_profile, text='Yes', command=lambda: take_action(username, dbase))
     yes_button.pack()
-    no_button = Button(master=frame_profile, text='No', command=lambda: menu(dbase))
+    no_button = Button(master=frame_profile, text='No', command=lambda: forget_widgets(dbase, frame_profile))
     no_button.pack()
 
 
@@ -631,6 +640,8 @@ def change_sex_check(key_sex, par, username, dbase):
     else:
         username[key_sex] = par
         dbase[username['name']] = username
+        forget_widgets(dbase, frame_profile)
+        forget_widgets(dbase, frame_change_parameter)
         change_file(dbase, username)
 
 
@@ -641,6 +652,8 @@ def change_lifestyle_check(key_lifestyle, par, username, dbase):
     else:
         username[key_lifestyle] = par
         dbase[username['name']] = username
+        forget_widgets(dbase, frame_profile)
+        forget_widgets(dbase, frame_change_parameter)
         change_file(dbase, username)
 
 
@@ -651,6 +664,8 @@ def change_goal_check(key_goal, par, username, dbase):
     else:
         username[key_goal] = par
         dbase[username['name']] = username
+        forget_widgets(dbase, frame_profile)
+        forget_widgets(dbase, frame_change_parameter)
         change_file(dbase, username)
 
 
@@ -659,6 +674,8 @@ def change_check(key_par, par, username, dbase):
         par = int(par)
         username[key_par] = par
         dbase[username['name']] = username
+        forget_widgets(dbase, frame_profile)
+        forget_widgets(dbase, frame_change_parameter)
         change_file(dbase, username)
     except:
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
