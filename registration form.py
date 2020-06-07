@@ -109,6 +109,7 @@ def username_identification(data):
         print("Wrong input. Please, try once again!")
         username_identification(data)
 
+
 def main_menu(dictionary, username, dbase, food_collection):
     for value in dictionary.values():
         print(value[0])
@@ -236,22 +237,20 @@ def products_gramm(soup):
     gramms = []
     for line in soup:
         gramm.append(str(soup.find_all('div', {'class': 'divtabletd1'})).split('</div>, <div class="divtabletd1">'))
-
     for quantity in gramm[0]:
         if "Quantity" in quantity or "</div>" in quantity:
             pass
         else:
             grammovka.append(' '.join(quantity.split()))
-
     for string in grammovka:
         if "gr" in string:
             val = string.split()
             for elem in val:
                 if elem == 'gr' or elem =='gr)':
                      gramms.append(int(val[val.index(elem)-1]))
-        if 'unit' in string:
+        elif 'unit' in string:
             gramms.append(50)
-        if "cl" in string:
+        elif "cl" in string:
             gramms.append(string)
     return gramms
 

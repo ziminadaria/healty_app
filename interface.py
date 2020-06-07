@@ -29,7 +29,8 @@ def take_data_from_database(file):
 
 
 root = Tk()
-root.geometry('500x500')
+root.config(bg='DarkOliveGreen2')
+root.geometry('820x500')
 root.title('Healthy Lifestyle Application')
 
 try:
@@ -38,43 +39,61 @@ except FileNotFoundError:
     data = {}
     print('There are no registered users or file is missed')
 
-frame_start = Frame(root)
-
-frame_start.pack()
+frame_start = Frame(root, padx=50, pady=50)
+frame_start.pack(padx=100, pady=100)
+frame_start.config(bg='DarkOliveGreen2')
+hello_text = Label(master=frame_start,
+                   text='Welcome to Healthy Lifestyle Application!\nIt will help you to develop your own diet and training plan.')
 text_start = Label(master=frame_start, text='Choose an action:')
-Button_reg = Button(master=frame_start, text='Sign up', width='10', command=lambda: registration())
-Button_log = Button(master=frame_start, text='Log in', width='10', command=lambda: login())
-Button_quit = Button(master=frame_start, text='Quit', width='10', command=lambda: quit())
+Button_reg = Button(master=frame_start, text='Sign up', width='17', height='2', command=lambda: registration())
+Button_log = Button(master=frame_start, text='Log in', width='17', height='2', command=lambda: login())
+Button_quit = Button(master=frame_start, text='Quit', width='17', height='2', command=lambda: quit())
+hello_text.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 13))
+text_start.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+hello_text.pack()
 text_start.pack()
 Button_reg.pack()
 Button_log.pack()
 Button_quit.pack()
 
-frame_login = Frame(root)
+frame_login = Frame(root, padx=50, pady=50)
+frame_login.config(bg='DarkOliveGreen2')
 text_login = Label(master=frame_login, text='Enter the system')
+text_login.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 text_enter_login = Label(master=frame_login, text='Enter your username:')
+text_enter_login.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 enter_login = Entry(master=frame_login)
-Button_enter = Button(master=frame_login, text='Enter', command=lambda: log_pass(data))
+enter_login.configure(width='20')
+Button_enter = Button(master=frame_login, text='Enter', command=lambda: log_pass(data), width='13', height='1')
 text_login.pack()
 text_enter_login.pack()
 enter_login.pack()
 Button_enter.pack()
 
-frame_reg = Frame(root)
+frame_reg = Frame(root, padx=50, pady=50)
+frame_reg.config(bg='DarkOliveGreen2')
 text = Label(master=frame_reg, text='Please, fill in the registration form:')
+text.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 text_log = Label(master=frame_reg, text='Enter your username:')
+text_log.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_login = Entry(master=frame_reg)
 text_sex = Label(master=frame_reg, text='Enter your sex (male/female):')
+text_sex.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_sex = Entry(master=frame_reg)
 text_age = Label(master=frame_reg, text='Enter your age:')
+text_age.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_age = Entry(master=frame_reg)
 text_weight = Label(master=frame_reg, text='Enter your weight:')
+text_weight.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_weight = Entry(master=frame_reg)
 text_height = Label(master=frame_reg, text='Enter your height:')
+text_height.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_height = Entry(master=frame_reg)
 text_lifestyle = Label(master=frame_reg, text='Enter your lifestyle (active/not active):')
+text_lifestyle.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_lifestyle = Entry(master=frame_reg)
 text_goal = Label(master=frame_reg, text='Enter your goal (lose weight/gain weight/keep in shape):')
+text_goal.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_goal = Entry(master=frame_reg)
 text.pack()
 text_log.pack()
@@ -91,7 +110,7 @@ text_lifestyle.pack()
 reg_lifestyle.pack()
 text_goal.pack()
 reg_goal.pack()
-Button_reg = Button(master=frame_reg, text='Sign up',
+Button_reg = Button(master=frame_reg, text='Sign up', width='13', height='1',
                     command=lambda: check_reg('name', reg_login.get(), 'sex', reg_sex.get(), 'lifestyle',
                                               reg_lifestyle.get(), 'goal',
                                               reg_goal.get(), 'age', reg_age.get(), 'weight', reg_weight.get(),
@@ -104,15 +123,19 @@ def check_reg(key_login, par_login, key_sex, par_sex, key_lifestyle, par_lifesty
               par_weight, key_height, par_height, dbase):
     if par_login in dbase.keys():
         error_message = Label(master=frame_reg, text=f'Name {key_login} already exists! Please, choose another one.')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     elif par_sex != 'male' and par_sex != 'female':
         error_message = Label(master=frame_reg, text=f'Wrong {key_sex} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     elif par_lifestyle != 'active' and par_lifestyle != 'not active':
         error_message = Label(master=frame_reg, text=f'Wrong {key_lifestyle} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     elif par_goal != 'lose weight' and par_goal != 'gain weight' and par_goal != 'keep in shape':
         error_message = Label(master=frame_reg, text=f'Wrong {key_goal} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     else:
         check_age_reg(key_age, par_age, key_weight, par_weight, key_height, par_height, dbase)
@@ -124,6 +147,7 @@ def check_age_reg(key_age, par_age, key_weight, par_weight, key_height, par_heig
         check_weight_reg(key_weight, par_weight, key_height, par_height, dbase)
     except ValueError:
         error_message = Label(master=frame_reg, text=f'Wrong {key_age} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
 
 
@@ -133,6 +157,7 @@ def check_weight_reg(key_weight, par_weight, key_height, par_height, dbase):
         check_height_reg(key_height, par_height, dbase)
     except ValueError:
         error_message = Label(master=frame_reg, text=f'Wrong {key_weight} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
 
 
@@ -142,23 +167,29 @@ def check_height_reg(key_height, par_height, dbase):
         save(dbase, 'data base.txt')
     except ValueError:
         error_message = Label(master=frame_reg, text=f'Wrong {key_height} input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
 
 
-frame_menu = Frame(root)
+frame_menu = Frame(root, padx=50, pady=50)
+frame_menu.config(bg='DarkOliveGreen2')
 title_menu = Label(master=frame_menu, text='Main menu:')
-profile = Button(master=frame_menu, text='See my profile', width='15', command=lambda: profile(menu(data), data))
-diet = Button(master=frame_menu, text='See my diet', width='15', command=lambda: diet(menu(data), data, collection))
-trainings = Button(master=frame_menu, text='See my training plan', width='15', command=lambda: training_plan(menu(data),
-                                                                                                             data))
-ex = Button(master=frame_menu, text='Exit', width='15', command=lambda: quit())
+title_menu.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 12))
+profile = Button(master=frame_menu, text='See my profile', width='17', height='2',
+                 command=lambda: profile(menu(data), data))
+diet = Button(master=frame_menu, text='See my diet', width='17', height='2',
+              command=lambda: diet(menu(data), data, collection))
+trainings = Button(master=frame_menu, text='See my training plan', width='17', height='2',
+                   command=lambda: training_plan(menu(data), data))
+ex = Button(master=frame_menu, text='Exit', width='17', height='2', command=lambda: quit())
 title_menu.pack()
 profile.pack()
 diet.pack()
 trainings.pack()
 ex.pack()
 
-frame_diet = Frame(root)
+frame_diet = Frame(root, padx=30, pady=30)
+frame_diet.config(bg='DarkOliveGreen2')
 
 frame_trainings = Frame(root)
 title_trainings = Label(master=frame_trainings, text='My training plan:')
@@ -169,15 +200,15 @@ title_action = Label(master=frame_action, text='What do you want to change?')
 title_action.pack()
 parameter_sex = Button(master=frame_action, text='Sex', width='15',
                        command=lambda: change_parameters('sex', menu(data), data))
-parameter_age = Button(master=frame_action, text='Age', width='15',
+parameter_age = Button(master=frame_action, text='Age', width='15', height='1',
                        command=lambda: change_parameters('age', menu(data), data))
-parameter_weight = Button(master=frame_action, text='Weight', width='15',
+parameter_weight = Button(master=frame_action, text='Weight', width='15', height='1',
                           command=lambda: change_parameters('weight', menu(data), data))
-parameter_height = Button(master=frame_action, text='Height', width='15',
+parameter_height = Button(master=frame_action, text='Height', width='15', height='1',
                           command=lambda: change_parameters('height', menu(data), data))
-parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15',
+parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15', height='1',
                              command=lambda: change_parameters('lifestyle', menu(data), data))
-parameter_goal = Button(master=frame_action, text='Goal', width='15',
+parameter_goal = Button(master=frame_action, text='Goal', width='15', height='1',
                         command=lambda: change_parameters('goal', menu(data), data))
 parameter_sex.pack()
 parameter_age.pack()
@@ -201,7 +232,7 @@ def registration():
     frame_trainings.forget()
     frame_menu.forget()
     frame_diet.forget()
-    frame_reg.pack()
+    frame_reg.pack(padx=100, pady=100)
     frame_change_parameter.forget()
 
 
@@ -213,7 +244,7 @@ def menu(database):
     frame_profile.forget()
     frame_action.forget()
     frame_trainings.forget()
-    frame_menu.pack()
+    frame_menu.pack(padx=100, pady=100)
     frame_diet.forget()
     frame_change_parameter.forget()
     return user_base
@@ -227,7 +258,7 @@ def login():
     frame_trainings.forget()
     frame_menu.forget()
     frame_diet.forget()
-    frame_login.pack()
+    frame_login.pack(padx=100, pady=100)
     frame_change_parameter.forget()
 
 
@@ -239,7 +270,7 @@ def diet(username, database, food):
     frame_action.forget()
     frame_trainings.forget()
     frame_menu.forget()
-    frame_diet.pack()
+    frame_diet.pack(padx=100, pady=100)
     frame_change_parameter.forget()
     my_diet(username, database, food)
 
@@ -326,6 +357,7 @@ def log_pass(database):
         menu(database)
     else:
         text_pass = Label(master=frame_login, text='Username does not exist in data base. Please, try again!')
+        text_pass.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         text_pass.pack()
         enter_login.get()
 
@@ -382,6 +414,7 @@ def trains(dbase, personal_plan):
 
 def my_diet(username, dbase, food_collection):
     calories = Label(master=frame_diet, text=f'Daily calories sum = {counting_daily_calories(username)}')
+    calories.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
     calories.pack()
     drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 1)
     fruits = random.sample(sort_food_info(food_collection)['fruit'], 2)
@@ -392,17 +425,20 @@ def my_diet(username, dbase, food_collection):
     fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 2)
     vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 3)
     breakfast = Label(master=frame_diet, text='BREAKFAST:')
+    breakfast.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
     breakfast.pack()
     sum = 0
     sum = calories_check(sum, fruits, counting_daily_calories(username))
     sum = calories_check(sum, cereals, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
     lunch = Label(master=frame_diet, text='LUNCH:')
+    lunch.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
     lunch.pack()
     sum = calories_check(sum, meat, counting_daily_calories(username))
     sum = calories_check(sum, vegetables, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
     dinner = Label(master=frame_diet, text='DINNER:')
+    dinner.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
     dinner.pack()
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
     sum = calories_check(sum, pasta, counting_daily_calories(username))
@@ -435,6 +471,7 @@ def print_menu(data):
         for k, v in value.items():
             if count == 1:
                 features = Label(master=frame_diet, text=f'{key}: {k} - {v};')
+                features.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
                 features.pack()
                 count = 0
 
@@ -494,35 +531,20 @@ def products_gramm(soup):
     gramms = []
     for line in soup:
         gramm.append(str(soup.find_all('div', {'class': 'divtabletd1'})).split('</div>, <div class="divtabletd1">'))
-
     for quantity in gramm[0]:
         if "Quantity" in quantity or "</div>" in quantity:
             pass
         else:
             grammovka.append(' '.join(quantity.split()))
-
     for string in grammovka:
-        if string[0:7] == "portion" and string[18:20] != 'oz':
-            gramms.append(int(string[16:19]))
-        if string[0:7] == "portion" and string[18:20] == 'oz':
-            gramms.append(int(string[23:26]))
-        if string[3:5] == 'oz':
-            gramms.append(int(string[7:10]))
-        if string[:8] == 'baguette':
-            gramms.append(int(string[24:27]))
-        if string == '50 gr':
+        if "gr" in string:
+            val = string.split()
+            for elem in val:
+                if elem == 'gr' or elem =='gr)':
+                     gramms.append(int(val[val.index(elem)-1]))
+        elif 'unit' in string:
             gramms.append(50)
-        if string[:5] == 'spoon':
-            gramms.append(int(string[13:15]))
-        if string[:8] == "2 spoons":
-            gramms.append(int(string[16:18]))
-        if string[:4] == 'unit' and string[16:18] != 'oz':
-            gramms.append(50)
-        if string[:4] == 'unit' and string[16:18] == 'oz':
-            gramms.append(int(string[20:23]))
-        if string[:7] == "2 units":
-            gramms.append(int(string[23:26]))
-        if string[-2:] == "cl":
+        elif "cl" in string:
             gramms.append(string)
     return gramms
 
@@ -728,7 +750,7 @@ def change_check(key_par, par, username, dbase):
         forget_widgets(dbase, frame_profile)
         forget_widgets(dbase, frame_change_parameter)
         change_file(dbase, username)
-    except:
+    except ValueError:
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
         error_message.pack()
 
