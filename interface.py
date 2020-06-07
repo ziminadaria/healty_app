@@ -48,7 +48,7 @@ text_start = Label(master=frame_start, text='Choose an action:')
 Button_reg = Button(master=frame_start, text='Sign up', width='17', height='2', command=lambda: registration())
 Button_log = Button(master=frame_start, text='Log in', width='17', height='2', command=lambda: login())
 Button_quit = Button(master=frame_start, text='Quit', width='17', height='2', command=lambda: quit())
-hello_text.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 13))
+hello_text.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 13, 'bold'))
 text_start.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 hello_text.pack()
 text_start.pack()
@@ -59,7 +59,7 @@ Button_quit.pack()
 frame_login = Frame(root, padx=50, pady=50)
 frame_login.config(bg='DarkOliveGreen2')
 text_login = Label(master=frame_login, text='Enter the system')
-text_login.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+text_login.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
 text_enter_login = Label(master=frame_login, text='Enter your username:')
 text_enter_login.configure(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 enter_login = Entry(master=frame_login)
@@ -73,7 +73,7 @@ Button_enter.pack()
 frame_reg = Frame(root, padx=50, pady=50)
 frame_reg.config(bg='DarkOliveGreen2')
 text = Label(master=frame_reg, text='Please, fill in the registration form:')
-text.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+text.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
 text_log = Label(master=frame_reg, text='Enter your username:')
 text_log.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 reg_login = Entry(master=frame_reg)
@@ -174,7 +174,7 @@ def check_height_reg(key_height, par_height, dbase):
 frame_menu = Frame(root, padx=50, pady=50)
 frame_menu.config(bg='DarkOliveGreen2')
 title_menu = Label(master=frame_menu, text='Main menu:')
-title_menu.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 12))
+title_menu.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 12, 'bold'))
 profile = Button(master=frame_menu, text='See my profile', width='17', height='2',
                  command=lambda: profile(menu(data), data))
 diet = Button(master=frame_menu, text='See my diet', width='17', height='2',
@@ -188,15 +188,19 @@ diet.pack()
 trainings.pack()
 ex.pack()
 
-frame_diet = Frame(root, padx=30, pady=30)
+frame_diet = Frame(root, padx=20, pady=20)
 frame_diet.config(bg='DarkOliveGreen2')
 
-frame_trainings = Frame(root)
+frame_trainings = Frame(root, padx=20, pady=20)
+frame_trainings.config(bg='DarkOliveGreen2')
 title_trainings = Label(master=frame_trainings, text='My training plan:')
+title_trainings.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
 title_trainings.pack()
 
-frame_action = Frame(root)
+frame_action = Frame(root, padx=50, pady=50)
+frame_action.config(bg='DarkOliveGreen2')
 title_action = Label(master=frame_action, text='What do you want to change?')
+title_action.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
 title_action.pack()
 parameter_sex = Button(master=frame_action, text='Sex', width='15',
                        command=lambda: change_parameters('sex', menu(data), data))
@@ -210,18 +214,20 @@ parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15', 
                              command=lambda: change_parameters('lifestyle', menu(data), data))
 parameter_goal = Button(master=frame_action, text='Goal', width='15', height='1',
                         command=lambda: change_parameters('goal', menu(data), data))
+back = Button(master=frame_action, text='Back', command=lambda: forget_widgets_par(data, frame_action))
 parameter_sex.pack()
 parameter_age.pack()
 parameter_weight.pack()
 parameter_height.pack()
 parameter_lifestyle.pack()
 parameter_goal.pack()
+back.pack()
 
-frame_profile = Frame(root)
-# title_profile = Label(master=frame_profile, text='My profile:')
-# title_profile.pack()
+frame_profile = Frame(root, padx=50, pady=50)
+frame_profile.config(bg='DarkOliveGreen2')
 
-frame_change_parameter = Frame(root)
+frame_change_parameter = Frame(root, padx=50, pady=50)
+frame_change_parameter.config(bg='DarkOliveGreen2')
 
 
 def registration():
@@ -370,7 +376,7 @@ def training_plan(username, dbase):
     frame_profile.forget()
     frame_action.forget()
     frame_diet.forget()
-    frame_trainings.pack()
+    frame_trainings.pack(padx=50, pady=50)
     frame_change_parameter.forget()
     my_training_plan(username, dbase)
 
@@ -387,11 +393,13 @@ def my_training_plan(username, dbase):
             return plan
         except FileNotFoundError:
             error_message = Label(master=frame_trainings, text='THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+            error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
             error_message.pack()
             Button_exit = Button(master=frame_trainings, text='Exit', command=lambda: quit())
             Button_exit.pack()
     except UnboundLocalError:
         error_message = Label(master=frame_trainings, text='THE FILE DOES NOT EXIST. PLEASE CHECK THE INPUT')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
         Button_exit = Button(master=frame_trainings, text='Exit', command=lambda: quit())
         Button_exit.pack()
@@ -399,13 +407,16 @@ def my_training_plan(username, dbase):
 
 def trains(dbase, personal_plan):
     for key, value in personal_plan.items():
-        day_of_week = Label(master=frame_trainings, text=f'{key}:', fg='#f20c0c', font='Calluna')
+        day_of_week = Label(master=frame_trainings, text=f'{key}:')
+        day_of_week.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
         day_of_week.pack()
         for i in value:
             for key1, value1 in i.items():
-                exercises = Label(master=frame_trainings, text=f'{key1} - {value1}', bg='azure')
+                exercises = Label(master=frame_trainings, text=f'{key1} - {value1}')
+                exercises.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
                 exercises.pack()
-    message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!', fg='#f20c0c')
+    message = Label(master=frame_trainings, text='HAVE A NICE TRAINING!')
+    message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     message.pack()
     back_to_menu = Button(master=frame_trainings, text='Back to main menu',
                           command=lambda: forget_widgets(dbase, frame_trainings))
@@ -414,7 +425,7 @@ def trains(dbase, personal_plan):
 
 def my_diet(username, dbase, food_collection):
     calories = Label(master=frame_diet, text=f'Daily calories sum = {counting_daily_calories(username)}')
-    calories.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+    calories.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     calories.pack()
     drinks = random.sample(sort_food_info(food_collection)['drinks and coffee'], 1)
     fruits = random.sample(sort_food_info(food_collection)['fruit'], 2)
@@ -425,26 +436,32 @@ def my_diet(username, dbase, food_collection):
     fish_and_seafood = random.sample(sort_food_info(food_collection)['fish and seafood'], 2)
     vegetables = random.sample(sort_food_info(food_collection)['vegetables'], 3)
     breakfast = Label(master=frame_diet, text='BREAKFAST:')
-    breakfast.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+    breakfast.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     breakfast.pack()
     sum = 0
     sum = calories_check(sum, fruits, counting_daily_calories(username))
     sum = calories_check(sum, cereals, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
     lunch = Label(master=frame_diet, text='LUNCH:')
-    lunch.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+    lunch.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     lunch.pack()
     sum = calories_check(sum, meat, counting_daily_calories(username))
     sum = calories_check(sum, vegetables, counting_daily_calories(username))
     sum = calories_check(sum, drinks, counting_daily_calories(username))
     dinner = Label(master=frame_diet, text='DINNER:')
-    dinner.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
+    dinner.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     dinner.pack()
     sum = calories_check(sum, fish_and_seafood, counting_daily_calories(username))
     sum = calories_check(sum, pasta, counting_daily_calories(username))
     sum = calories_check(sum, alcohol, counting_daily_calories(username))
-    back = Button(master=frame_diet, text='BACK', command=lambda: forget_widgets(dbase, frame_diet))
+    back = Button(master=frame_diet, text='Back', command=lambda: forget_widgets(dbase, frame_diet))
     back.pack()
+
+
+def forget_widgets_par(dbase, frame):
+    for widget in frame.winfo_children():
+        widget.destroy()
+    profile(menu(dbase), dbase)
 
 
 def forget_widgets(dbase, frame):
@@ -554,7 +571,6 @@ def products_calories(soup):
     calories = []
     for line in soup:
         calori.append(str(soup.find_all('div', {'class': 'divtabletd2'})).split('</div>, <div class="divtabletd2">'))
-
     for quantity in calori[0]:
         if "Calories" in quantity or "</div>" in quantity:
             pass
@@ -614,23 +630,31 @@ def profile(username, dbase):
     frame_trainings.forget()
     frame_menu.forget()
     frame_diet.forget()
-    frame_profile.pack()
+    frame_profile.pack(padx=100, pady=100)
     frame_change_parameter.forget()
     my_profile(username, dbase)
 
 
 def my_profile(username, dbase):
     title_profile = Label(master=frame_profile, text='My profile:')
+    title_profile.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     title_profile.pack()
     for key, value in username.items():
         profile_attributes = Label(master=frame_profile, text=f'{key} - {value}', bg='azure')
+        profile_attributes.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         profile_attributes.pack()
     profile_change = Label(master=frame_profile, text=f'Do you want to change your profile?')
+    profile_change.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     profile_change.pack()
     yes_button = Button(master=frame_profile, text='Yes', command=lambda: take_action(username, dbase))
     yes_button.pack()
     no_button = Button(master=frame_profile, text='No', command=lambda: forget_widgets(dbase, frame_profile))
     no_button.pack()
+
+#
+# def yes_func(dbase, frame, username):
+#     forget_widgets_par(dbase, frame, take_action(username, dbase))
+#     take_action(username, dbase)
 
 
 def take_action(username, dbase):
@@ -642,13 +666,8 @@ def take_action(username, dbase):
     frame_profile.forget()
     frame_trainings.forget()
     frame_diet.forget()
-    frame_action.pack()
+    frame_action.pack(padx=100, pady=100)
     frame_change_parameter.forget()
-    # action(username, dbase)
-
-
-# def action(username, dbase):
-#     pass
 
 
 def change_parameters(key, username, dbase):
@@ -661,12 +680,13 @@ def change_parameters(key, username, dbase):
     frame_action.forget()
     frame_trainings.forget()
     frame_diet.forget()
-    frame_change_parameter.pack()
+    frame_change_parameter.pack(padx=100, pady=100)
     parameters(key, username, dbase)
 
 
 def parameters(key, username, dbase):
     text_messages = Label(master=frame_change_parameter, text=f'Please, choose another {key}:', font='Calluna')
+    text_messages.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10, 'bold'))
     text_messages.pack()
     if key == 'sex':
         par = Entry(master=frame_change_parameter)
@@ -709,6 +729,7 @@ def parameters(key, username, dbase):
 def change_sex_check(key_sex, par, username, dbase):
     if par != 'male' and par != 'female':
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     else:
         username[key_sex] = par
@@ -721,6 +742,7 @@ def change_sex_check(key_sex, par, username, dbase):
 def change_lifestyle_check(key_lifestyle, par, username, dbase):
     if par != 'active' and par != 'not active':
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     else:
         username[key_lifestyle] = par
@@ -733,6 +755,7 @@ def change_lifestyle_check(key_lifestyle, par, username, dbase):
 def change_goal_check(key_goal, par, username, dbase):
     if par != 'lose weight' and par != 'gain weight' and par != 'keep in shape':
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
     else:
         username[key_goal] = par
@@ -752,6 +775,7 @@ def change_check(key_par, par, username, dbase):
         change_file(dbase, username)
     except ValueError:
         error_message = Label(master=frame_change_parameter, text=f'Wrong input!')
+        error_message.config(bg='DarkOliveGreen2', fg='gray11', font=('Verdana', 10))
         error_message.pack()
 
 
