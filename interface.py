@@ -42,8 +42,8 @@ except FileNotFoundError:
 frame_start = Frame(root, padx=50, pady=50)
 frame_start.pack(padx=100, pady=100)
 frame_start.config(bg='DarkOliveGreen2')
-hello_text = Label(master=frame_start,
-                   text='Welcome to Healthy Lifestyle Application!\nIt will help you to develop your own diet and training plan.')
+hello_text = Label(master=frame_start, text='Welcome to Healthy Lifestyle Application!'
+                                            '\nIt will help you to develop your own diet and training plan.')
 text_start = Label(master=frame_start, text='Choose an action:')
 Button_reg = Button(master=frame_start, text='Sign up', width='17', height='2', command=lambda: registration())
 Button_log = Button(master=frame_start, text='Log in', width='17', height='2', command=lambda: login())
@@ -214,14 +214,12 @@ parameter_lifestyle = Button(master=frame_action, text='Lifestyle', width='15', 
                              command=lambda: change_parameters('lifestyle', menu(data), data))
 parameter_goal = Button(master=frame_action, text='Goal', width='15', height='1',
                         command=lambda: change_parameters('goal', menu(data), data))
-back = Button(master=frame_action, text='Back', command=lambda: forget_widgets_par(data, frame_action))
 parameter_sex.pack()
 parameter_age.pack()
 parameter_weight.pack()
 parameter_height.pack()
 parameter_lifestyle.pack()
 parameter_goal.pack()
-back.pack()
 
 frame_profile = Frame(root, padx=50, pady=50)
 frame_profile.config(bg='DarkOliveGreen2')
@@ -458,12 +456,6 @@ def my_diet(username, dbase, food_collection):
     back.pack()
 
 
-def forget_widgets_par(dbase, frame):
-    for widget in frame.winfo_children():
-        widget.destroy()
-    profile(menu(dbase), dbase)
-
-
 def forget_widgets(dbase, frame):
     for widget in frame.winfo_children():
         widget.destroy()
@@ -557,8 +549,8 @@ def products_gramm(soup):
         if "gr" in string:
             val = string.split()
             for elem in val:
-                if elem == 'gr' or elem =='gr)':
-                     gramms.append(int(val[val.index(elem)-1]))
+                if elem == 'gr' or elem == 'gr)':
+                    gramms.append(int(val[val.index(elem) - 1]))
         elif 'unit' in string:
             gramms.append(50)
         elif "cl" in string:
@@ -650,11 +642,6 @@ def my_profile(username, dbase):
     yes_button.pack()
     no_button = Button(master=frame_profile, text='No', command=lambda: forget_widgets(dbase, frame_profile))
     no_button.pack()
-
-#
-# def yes_func(dbase, frame, username):
-#     forget_widgets_par(dbase, frame, take_action(username, dbase))
-#     take_action(username, dbase)
 
 
 def take_action(username, dbase):
